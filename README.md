@@ -1,4 +1,4 @@
-# MIPS_Based_CPU_Simulator
+# MIPS-Based CPU Simulator
 ![GitHub Created At](https://img.shields.io/github/created-at/Stonky-Boi/MIPS_Based_CPU_Simulator)
 ![GitHub contributors](https://img.shields.io/github/contributors/Stonky-Boi/MIPS_Based_CPU_Simulator)
 ![GitHub License](https://img.shields.io/github/license/Stonky-Boi/MIPS_Based_CPU_Simulator)
