@@ -1,118 +1,127 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify
 import subprocess
 import json
 import os
 import tempfile
 
 app = Flask(__name__)
-app.secret_key = 'mips_simulator_secret_key'
 
-class MIPSSimulatorInterface:
+class MIPSSimulatorWrapper:
     def __init__(self):
-        self.simulator_path = './mips_simulator'
+        self.simulator_path = "../build/mips_simulator"
         self.temp_dir = tempfile.mkdtemp()
-        
-    def compile_simulator(self):
-        """Compile the C++ simulator using CMake"""
+    
+    def run_simulator(self, program, mode="step", pipeline=False, branch_prediction=False):
+        """Run the MIPS simulator with given parameters"""
         try:
-            subprocess.run(['cmake', '.'], check=True, capture_output=True, text=True)
-            subprocess.run(['make'], check=True, capture_output=True, text=True)
-            return True
-        except subprocess.CalledProcessError as e:
-            print(f"Compilation error: {e}")
-            return False
+            # Create temporary program file
+            program_file = os.path.join(self.temp_dir, "program.txt")
+            with open(program_file, 'w') as f:
+                f.write(program)
             
-    def run_simulator(self, assembly_code, config):
-        """Run the MIPS simulator with given assembly code and configuration"""
-        
-        # Create temporary assembly file
-        asm_file = os.path.join(self.temp_dir, 'program.asm')
-        with open(asm_file, 'w') as f:
-            f.write(assembly_code)
-        
-        # Create configuration file
-        config_file = os.path.join(self.temp_dir, 'config.json')
-        with open(config_file, 'w') as f:
-            json.dump(config, f)
-        
-        try:
-            # Run simulator
-            result = subprocess.run([
-                self.simulator_path,
-                '--input', asm_file,
-                '--config', config_file,
-                '--output-format', 'json'
-            ], capture_output=True, text=True, timeout=30)
+            # Build command
+            cmd = [self.simulator_path, program_file]
+            if mode == "run":
+                cmd.append("--run")
+            if pipeline:
+                cmd.append("--pipeline")
+            if branch_prediction:
+                cmd.append("--branch-prediction")
+            
+            # Execute simulator
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
             
             if result.returncode == 0:
-                return json.loads(result.stdout)
+                return {
+                    'success': True,
+                    'output': result.stdout,
+                    'error': None
+                }
             else:
-                return {'error': result.stderr}
+                return {
+                    'success': False,
+                    'output': None,
+                    'error': result.stderr
+                }
                 
         except subprocess.TimeoutExpired:
-            return {'error': 'Simulation timeout'}
+            return {
+                'success': False,
+                'output': None,
+                'error': "Simulation timed out"
+            }
         except Exception as e:
-            return {'error': str(e)}
+            return {
+                'success': False,
+                'output': None,
+                'error': str(e)
+            }
 
-simulator = MIPSSimulatorInterface()
+simulator = MIPSSimulatorWrapper()
 
 @app.route('/')
 def index():
+    """Main simulator interface"""
     return render_template('index.html')
-
-@app.route('/simulator')
-def simulator_page():
-    return render_template('simulator.html')
 
 @app.route('/api/simulate', methods=['POST'])
 def simulate():
-    data = request.json
+    """API endpoint for running simulation"""
+    data = request.get_json()
     
-    assembly_code = data.get('assembly', '')
-    config = {
-        'pipeline_enabled': data.get('pipeline_enabled', True),
-        'step_mode': data.get('step_mode', False),
-        'branch_predictor': data.get('branch_predictor', 'static_not_taken'),
-        'predictor_params': data.get('predictor_params', {}),
-        'show_pipeline': data.get('show_pipeline', True),
-        'show_registers': data.get('show_registers', True),
-        'show_memory': data.get('show_memory', True),
-        'memory_start': data.get('memory_start', '0x400000'),
-        'memory_length': data.get('memory_length', 64)
-    }
+    program = data.get('program', '')
+    mode = data.get('mode', 'step')
+    pipeline = data.get('pipeline', False)
+    branch_prediction = data.get('branch_prediction', False)
     
-    result = simulator.run_simulator(assembly_code, config)
+    if not program:
+        return jsonify({
+            'success': False,
+            'error': 'No program provided'
+        })
+    
+    result = simulator.run_simulator(program, mode, pipeline, branch_prediction)
     return jsonify(result)
 
 @app.route('/api/examples')
-def get_examples():
+def examples():
+    """Get example MIPS programs"""
     examples = {
-        'basic_arithmetic': {
-            'name': 'Basic Arithmetic',
-            'description': 'Simple arithmetic operations',
-            'code': '''# Basic arithmetic example
-addi $t0, $zero, 10
-addi $t1, $zero, 20
-add $t2, $t0, $t1
-sub $t3, $t1, $t0
+        'simple_add': {
+            'name': 'Simple Addition',
+            'description': 'Basic addition operation',
+            'code': '''# Simple addition example
+20020005  # addi $v0, $zero, 5
+20030003  # addi $v1, $zero, 3
+00622020  # add $a0, $v1, $v0
 '''
         },
-        'loop_example': {
-            'name': 'Loop Example',
-            'description': 'Simple loop with branch',
-            'code': '''# Loop example
-addi $t0, $zero, 0    # counter
-addi $t1, $zero, 10   # limit
-
-loop:
-    addi $t0, $t0, 1  # increment counter
-    bne $t0, $t1, loop # branch if not equal
-    
-# end of program
+        'loop': {
+            'name': 'Simple Loop',
+            'description': 'Loop with branch instruction',
+            'code': '''# Simple loop example
+20020000  # addi $v0, $zero, 0
+2003000A  # addi $v1, $zero, 10
+20420001  # addi $v0, $v0, 1
+1443FFFD  # bne $v0, $v1, -3
+'''
+        },
+        'memory': {
+            'name': 'Memory Operations',
+            'description': 'Load and store operations',
+            'code': '''# Memory operations example
+20020064  # addi $v0, $zero, 100
+AC020000  # sw $v0, 0($zero)
+8C030000  # lw $v1, 0($zero)
 '''
         }
     }
     return jsonify(examples)
+
+@app.route('/documentation')
+def documentation():
+    """MIPS instruction documentation"""
+    return render_template('documentation.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

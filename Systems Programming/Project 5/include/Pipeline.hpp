@@ -1,82 +1,77 @@
-#ifndef PIPELINE_HPP
-#define PIPELINE_HPP
-
-#include "Instruction.hpp"
-#include "HazardDetection.hpp"
-#include <queue>
-
-struct PipelineStage {
-    bool valid;
-    Instruction instruction;
-    uint32_t pc;
-
-    // Stage-specific data
-    uint32_t aluResult;
-    uint32_t memoryData;
-    uint32_t writeData;
-    uint8_t writeReg;
-    bool regWrite;
-    bool memRead;
-    bool memWrite;
-    bool branch;
-    bool jump;
-
-    PipelineStage() : valid(false), regWrite(false), memRead(false), 
-                     memWrite(false), branch(false), jump(false) {}
-};
+#pragma once
+#include <vector>
+#include <cstdint>
+#include <string>
 
 class Pipeline {
-private:
-    // Pipeline registers
-    PipelineStage IF_ID;
-    PipelineStage ID_EX;
-    PipelineStage EX_MEM;
-    PipelineStage MEM_WB;
-
-    // Hazard detection and forwarding
-    HazardDetection hazardUnit;
-
-    // Stall and flush control
-    bool stall;
-    bool flush;
-
-    // Statistics
-    uint64_t stallCycles;
-    uint64_t flushCycles;
-
 public:
+    enum Stage {
+        IF = 0,  // Instruction Fetch
+        ID = 1,  // Instruction Decode
+        EX = 2,  // Execute
+        MEM = 3, // Memory Access
+        WB = 4   // Write Back
+    };
+    
+    struct PipelineRegister {
+        // IF/ID
+        uint32_t if_id_pc;
+        uint32_t if_id_instruction;
+        bool if_id_valid;
+        
+        // ID/EX
+        uint32_t id_ex_pc;
+        uint32_t id_ex_rs_data;
+        uint32_t id_ex_rt_data;
+        uint32_t id_ex_immediate;
+        uint8_t id_ex_rs;
+        uint8_t id_ex_rt;
+        uint8_t id_ex_rd;
+        uint8_t id_ex_opcode;
+        uint8_t id_ex_funct;
+        bool id_ex_reg_write;
+        bool id_ex_mem_read;
+        bool id_ex_mem_write;
+        bool id_ex_branch;
+        bool id_ex_jump;
+        bool id_ex_valid;
+        
+        // EX/MEM
+        uint32_t ex_mem_pc;
+        uint32_t ex_mem_alu_result;
+        uint32_t ex_mem_rt_data;
+        uint8_t ex_mem_rd;
+        bool ex_mem_reg_write;
+        bool ex_mem_mem_read;
+        bool ex_mem_mem_write;
+        bool ex_mem_zero;
+        bool ex_mem_valid;
+        
+        // MEM/WB
+        uint32_t mem_wb_alu_result;
+        uint32_t mem_wb_mem_data;
+        uint8_t mem_wb_rd;
+        bool mem_wb_reg_write;
+        bool mem_wb_mem_to_reg;
+        bool mem_wb_valid;
+    };
+    
     Pipeline();
-
-    // Pipeline execution
-    void tick(const Instruction& fetchedInstruction, uint32_t pc,
-              std::vector<uint32_t>& registers, std::vector<uint8_t>& memory);
-
-    // Pipeline control
-    void stallPipeline();
-    void flushPipeline();
-    bool isStalled() const { return stall; }
-
-    // Forwarding
-    uint32_t getForwardedValue(uint8_t reg, uint32_t originalValue);
-
-    // State access
-    std::string getState() const;
-    PipelineStage getStage(int stage) const;
-
-    // Statistics
-    uint64_t getStallCycles() const { return stallCycles; }
-    uint64_t getFlushCycles() const { return flushCycles; }
-
+    ~Pipeline();
+    
+    void reset();
+    void advance();
+    bool detectDataHazard() const;
+    bool detectControlHazard() const;
+    void insertStall();
+    void flush();
+    
+    PipelineRegister& getRegisters();
+    const PipelineRegister& getRegisters() const;
+    std::string getStateString() const;
+    
 private:
-    // Individual stage execution
-    void executeIF(const Instruction& instruction, uint32_t pc);
-    void executeID(std::vector<uint32_t>& registers);
-    void executeEX();
-    void executeMEM(std::vector<uint8_t>& memory);
-    void executeWB(std::vector<uint32_t>& registers);
-
-    // ALU operations
-    uint32_t performALU(uint32_t op1, uint32_t op2, InstructionFormat format);
+    PipelineRegister registers;
+    std::vector<bool> stall_stages;
+    std::vector<bool> flush_stages;
 };
-
-#endif // PIPELINE_HPP

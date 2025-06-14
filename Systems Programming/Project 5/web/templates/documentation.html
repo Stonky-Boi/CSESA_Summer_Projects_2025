@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIPS Simulator - Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet">
+    <style>
+        .doc-section {
+            margin-bottom: 2rem;
+        }
+        .instruction-table {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+        }
+        .code-example {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .pipeline-diagram {
+            background: linear-gradient(90deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">MIPS Simulator</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Simulator</a>
+                <a class="nav-link active" href="/documentation">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <h1 class="mb-4">MIPS Simulator Documentation</h1>
+        
+        <!-- Table of Contents -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Table of Contents</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li><a href="#overview">1. Overview</a></li>
+                    <li><a href="#instructions">2. Supported Instructions</a></li>
+                    <li><a href="#pipeline">3. Pipeline Architecture</a></li>
+                    <li><a href="#branch-prediction">4. Branch Prediction</a></li>
+                    <li><a href="#usage">5. Usage Examples</a></li>
+                    <li><a href="#troubleshooting">6. Troubleshooting</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overview" class="doc-section">
+            <h2>1. Overview</h2>
+            <p>The MIPS Simulator is a comprehensive software implementation that emulates the execution of MIPS assembly code. It supports the complete fetch-decode-execute cycle and includes advanced features such as 5-stage pipelining and branch prediction.</p>
+            
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Complete Instruction Set:</strong> R-type, I-type, and J-type instructions</li>
+                <li><strong>Register File:</strong> 32 general-purpose registers</li>
+                <li><strong>Memory System:</strong> 64KB addressable memory space</li>
+                <li><strong>Pipeline Simulation:</strong> 5-stage pipeline with hazard detection</li>
+                <li><strong>Branch Prediction:</strong> Static and dynamic predictors with statistics</li>
+                <li><strong>Web Interface:</strong> Interactive browser-based simulation environment</li>
+            </ul>
+        </section>
+
+        <!-- Instructions Section -->
+        <section id="instructions" class="doc-section">
+            <h2>2. Supported Instructions</h2>
+            
+            <h3>R-Type Instructions</h3>
+            <div class="table-responsive">
+                <table class="table table-striped instruction-table">
+                    <thead>
+                        <tr>
+                            <th>Instruction</th>
+                            <th>Format</th>
+                            <th>Operation</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>add</td>
+                            <td>add rd, rs, rt</td>
+                            <td>rd = rs + rt</td>
+                            <td>add $t0, $s0, $s1</td>
+                        </tr>
+                        <tr>
+                            <td>sub</td>
+                            <td>sub rd, rs, rt</td>
+                            <td>rd = rs - rt</td>
+                            <td>sub $t0, $s0, $s1</td>
+                        </tr>
+                        <tr>
+                            <td>and</td>
+                            <td>and rd, rs, rt</td>
+                            <td>rd = rs & rt</td>
+                            <td>and $t0, $s0, $s1</td>
+                        </tr>
+                        <tr>
+                            <td>or</td>
+                            <td>or rd, rs, rt</td>
+                            <td>rd = rs | rt</td>
+                            <td>or $t0, $s0, $s1</td>
+                        </tr>
+                        <tr>
+                            <td>slt</td>
+                            <td>slt rd, rs, rt</td>
+                            <td>rd = (rs < rt) ? 1 : 0</td>
+                            <td>slt $t0, $s0, $s1</td>
+                        </tr>
+                        <tr>
+                            <td>jr</td>
+                            <td>jr rs</td>
+                            <td>PC = rs</td>
+                            <td>jr $ra</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>I-Type Instructions</h3>
+            <div class="table-responsive">
+                <table class="table table-striped instruction-table">
+                    <thead>
+                        <tr>
+                            <th>Instruction</th>
+                            <th>Format</th>
+                            <th>Operation</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>addi</td>
+                            <td>addi rt, rs, immediate</td>
+                            <td>rt = rs + immediate</td>
+                            <td>addi $t0, $s0, 100</td>
+                        </tr>
+                        <tr>
+                            <td>lw</td>
+                            <td>lw rt, offset(rs)</td>
+                            <td>rt = Memory[rs + offset]</td>
+                            <td>lw $t0, 4($sp)</td>
+                        </tr>
+                        <tr>
+                            <td>sw</td>
+                            <td>sw rt, offset(rs)</td>
+                            <td>Memory[rs + offset] = rt</td>
+                            <td>sw $t0, 4($sp)</td>
+                        </tr>
+                        <tr>
+                            <td>beq</td>
+                            <td>beq rs, rt, label</td>
+                            <td>if (rs == rt) PC = PC + 4 + offset</td>
+                            <td>beq $t0, $t1, loop</td>
+                        </tr>
+                        <tr>
+                            <td>bne</td>
+                            <td>bne rs, rt, label</td>
+                            <td>if (rs != rt) PC = PC + 4 + offset</td>
+                            <td>bne $t0, $zero, end</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>J-Type Instructions</h3>
+            <div class="table-responsive">
+                <table class="table table-striped instruction-table">
+                    <thead>
+                        <tr>
+                            <th>Instruction</th>
+                            <th>Format</th>
+                            <th>Operation</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>j</td>
+                            <td>j target</td>
+                            <td>PC = target</td>
+                            <td>j main</td>
+                        </tr>
+                        <tr>
+                            <td>jal</td>
+                            <td>jal target</td>
+                            <td>$ra = PC + 8; PC = target</td>
+                            <td>jal function</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Pipeline Section -->
+        <section id="pipeline" class="doc-section">
+            <h2>3. Pipeline Architecture</h2>
+            
+            <div class="pipeline-diagram mb-4">
+                <div class="row">
+                    <div class="col">IF</div>
+                    <div class="col">ID</div>
+                    <div class="col">EX</div>
+                    <div class="col">MEM</div>
+                    <div class="col">WB</div>
+                </div>
+            </div>
+
+            <h3>Pipeline Stages</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>1. Instruction Fetch (IF)</h4>
+                    <ul>
+                        <li>Fetch instruction from memory</li>
+                        <li>Update program counter</li>
+                        <li>Pass instruction to next stage</li>
+                    </ul>
+
+                    <h4>2. Instruction Decode (ID)</h4>
+                    <ul>
+                        <li>Decode instruction fields</li>
+                        <li>Read source registers</li>
+                        <li>Generate control signals</li>
+                    </ul>
+
+                    <h4>3. Execute (EX)</h4>
+                    <ul>
+                        <li>Perform ALU operations</li>
+                        <li>Calculate branch targets</li>
+                        <li>Generate memory addresses</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>4. Memory Access (MEM)</h4>
+                    <ul>
+                        <li>Access data memory</li>
+                        <li>Perform load/store operations</li>
+                        <li>Handle branch resolution</li>
+                    </ul>
+
+                    <h4>5. Write Back (WB)</h4>
+                    <ul>
+                        <li>Write results to registers</li>
+                        <li>Complete instruction execution</li>
+                        <li>Update architectural state</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Hazard Detection</h3>
+            <p>The pipeline includes comprehensive hazard detection and handling:</p>
+            <ul>
+                <li><strong>Data Hazards:</strong> RAW (Read After Write) dependencies with stalling</li>
+                <li><strong>Control Hazards:</strong> Branch instructions with prediction and flushing</li>
+                <li><strong>Load-Use Hazards:</strong> Special handling for memory load dependencies</li>
+            </ul>
+        </section>
+
+        <!-- Branch Prediction Section -->
+        <section id="branch-prediction" class="doc-section">
+            <h2>4. Branch Prediction</h2>
+            
+            <h3>Predictor Types</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Static Predictors</h4>
+                    <ul>
+                        <li><strong>Always Not Taken:</strong> Predict all branches as not taken</li>
+                        <li><strong>Always Taken:</strong> Predict all branches as taken</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Dynamic Predictors</h4>
+                    <ul>
+                        <li><strong>1-bit Predictor:</strong> Based on last branch outcome</li>
+                        <li><strong>2-bit Predictor:</strong> Four-state predictor with hysteresis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Performance Metrics</h3>
+            <p>The simulator tracks comprehensive branch prediction statistics:</p>
+            <ul>
+                <li>Total number of branch instructions</li>
+                <li>Correct and incorrect predictions</li>
+                <li>Overall prediction accuracy percentage</li>
+                <li>Branch history table utilization</li>
+            </ul>
+        </section>
+
+        <!-- Usage Examples Section -->
+        <section id="usage" class="doc-section">
+            <h2>5. Usage Examples</h2>
+            
+            <h3>Basic Program Example</h3>
+            <div class="code-example">
+                <h4>Simple Addition Program</h4>
+                <pre><code># Load immediate values
+20020005  # addi $v0, $zero, 5
+20030003  # addi $v1, $zero, 3
+
+# Perform addition
+00622020  # add $a0, $v1, $v0
+
+# Store result in memory
+AC040000  # sw $a0, 0($zero)</code></pre>
+            </div>
+
+            <h3>Loop Example</h3>
+            <div class="code-example">
+                <h4>Counting Loop</h4>
+                <pre><code># Initialize counter and limit
+20020000  # addi $v0, $zero, 0     # counter = 0
+2003000A  # addi $v1, $zero, 10    # limit = 10
+
+# Loop body
+20420001  # addi $v0, $v0, 1       # counter++
+1443FFFD  # bne $v0, $v1, -3       # if counter != limit, loop</code></pre>
+            </div>
+
+            <h3>Function Call Example</h3>
+            <div class="code-example">
+                <h4>Simple Function Call</h4>
+                <pre><code># Main program
+20040005  # addi $a0, $zero, 5     # argument
+0C000010  # jal function           # call function
+
+# Function implementation
+00822020  # add $a0, $a0, $v0      # add to argument
+03E00008  # jr $ra                 # return</code></pre>
+            </div>
+        </section>
+
+        <!-- Troubleshooting Section -->
+        <section id="troubleshooting" class="doc-section">
+            <h2>6. Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <h4>Invalid Instruction Format</h4>
+            <ul>
+                <li>Ensure instructions are in 32-bit hexadecimal format</li>
+                <li>Each instruction should be exactly 8 hex characters</li>
+                <li>Comments can be added after # symbol</li>
+            </ul>
+
+            <h4>Memory Access Errors</h4>
+            <ul>
+                <li>Check that memory addresses are within valid range (0-65535)</li>
+                <li>Ensure word-aligned access for load/store instructions</li>
+                <li>Initialize memory locations before reading</li>
+            </ul>
+
+            <h4>Pipeline Hazards</h4>
+            <ul>
+                <li>Data hazards may cause automatic stalls</li>
+                <li>Branch mispredictions will flush pipeline stages</li>
+                <li>Use step-by-step execution to debug pipeline behavior</li>
+            </ul>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Start with simple programs and gradually add complexity</li>
+                <li>Use the step-by-step execution mode for debugging</li>
+                <li>Monitor register and memory states during execution</li>
+                <li>Enable pipeline visualization to understand instruction flow</li>
+                <li>Analyze branch prediction statistics for performance insights</li>
+            </ul>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
