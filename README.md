@@ -1,7 +1,7 @@
-# MIPS-Based CPU Simulator
-![GitHub Created At](https://img.shields.io/github/created-at/Stonky-Boi/MIPS-Based CPU Simulator)
-![GitHub contributors](https://img.shields.io/github/contributors/Stonky-Boi/MIPS-Based CPU Simulator)
-![GitHub License](https://img.shields.io/github/license/Stonky-Boi/MIPS-Based CPU Simulator)
+# MIPS_Based_CPU_Simulator
+![GitHub Created At](https://img.shields.io/github/created-at/Stonky-Boi/MIPS_Based_CPU_Simulator)
+![GitHub contributors](https://img.shields.io/github/contributors/Stonky-Boi/MIPS_Based_CPU_Simulator)
+![GitHub License](https://img.shields.io/github/license/Stonky-Boi/MIPS_Based_CPU_Simulator)
 
 A comprehensive software-based simulator that emulates the execution of MIPS assembly code with support for instruction decoding, pipelined execution, hazard detection, and branch prediction.
 
