@@ -1,4 +1,4 @@
-# MIPS Simulator Project - Comprehensive README
+# MIPS-based CPU Simulator
 
 ## Overview
 
