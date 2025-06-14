@@ -1,0 +1,48 @@
+# Flask web framework
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Web server
+gunicorn==21.2.0
+
+# JSON handling (included in Python standard library)
+# json
+
+# Process management
+psutil==5.9.5
+
+# Optional: For enhanced web features
+Flask-CORS==4.0.0
+
+# Optional: For session management
+Flask-Session==0.5.0
+
+# Optional: For form handling
+Flask-WTF==1.1.1
+WTForms==3.0.1
+
+# Optional: For database support (if needed for logging)
+SQLAlchemy==2.0.21
+Flask-SQLAlchemy==3.0.5
+
+# Development dependencies
+pytest==7.4.2
+pytest-flask==1.2.0
+
+# Optional: For API documentation
+flask-restx==1.2.0
+
+# Optional: For monitoring
+prometheus-flask-exporter==0.23.0
+
+# Optional: For enhanced logging
+structlog==23.1.0
+
+# Security
+cryptography==41.0.7
+
+# Data validation
+marshmallow==3.20.1
+
+# HTTP client for testing
+requests==2.31.0
