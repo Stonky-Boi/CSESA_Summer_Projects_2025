@@ -3,7 +3,6 @@ import subprocess
 import json
 import os
 import tempfile
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'mips_simulator_secret_key'
