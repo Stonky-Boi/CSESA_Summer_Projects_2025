@@ -106,7 +106,7 @@ The project requires several development tools and libraries:
 
 1. **Python Dependencies**:
    ```bash
-   pip install -r requirements.txt
+   pip install flask
    ```
 
 2. **Web Server Launch**:
