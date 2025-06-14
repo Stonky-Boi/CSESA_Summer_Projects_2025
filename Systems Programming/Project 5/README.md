@@ -115,7 +115,7 @@ The project requires several development tools and libraries:
    python app.py
    ```
 
-3. **Browser Access**: Navigate to `http://localhost:5000` for the interactive interface
+3. **Browser Access**: Navigate to `http://localhost:5500` for the interactive interface
 
 ## Usage Instructions
 
