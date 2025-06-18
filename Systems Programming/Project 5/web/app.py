@@ -5,6 +5,7 @@ import tempfile
 import webbrowser
 import threading
 import time
+import argparse
 
 app = Flask(__name__)
 
@@ -125,12 +126,20 @@ def documentation():
     """MIPS instruction documentation"""
     return render_template('documentation.html')
 
-def open_browser():
+def open_browser(port):
     """Open browser after a short delay"""
+    import time, webbrowser
     time.sleep(1)
-    webbrowser.open('http://localhost:5000')
+    webbrowser.open(f'http://localhost:{port}')
 
 if __name__ == '__main__':
-    # Open browser automatically
-    threading.Thread(target=open_browser).start()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    parser = argparse.ArgumentParser(description="MIPS Simulator Flask Server")
+    parser.add_argument('-p', '--port', type=int, default=5000, help='Port to run the server on')
+    parser.add_argument('--host', type=str, default='0.0.0.0', help='Host to run the server on')
+    args = parser.parse_args()
+
+    # Open browser automatically on the correct port
+    import threading
+    threading.Thread(target=open_browser, args=(args.port,)).start()
+
+    app.run(debug=True, host=args.host, port=args.port)
