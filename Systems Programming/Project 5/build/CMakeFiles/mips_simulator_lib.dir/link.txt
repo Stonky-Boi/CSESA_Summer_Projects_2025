@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmips_simulator_lib.a CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o
+/usr/bin/ranlib libmips_simulator_lib.a
