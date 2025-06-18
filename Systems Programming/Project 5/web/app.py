@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import subprocess
-import json
 import os
 import tempfile
+import webbrowser
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -123,5 +125,12 @@ def documentation():
     """MIPS instruction documentation"""
     return render_template('documentation.html')
 
+def open_browser():
+    """Open browser after a short delay"""
+    time.sleep(1)
+    webbrowser.open('http://localhost:5000')
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5500)
+    # Open browser automatically
+    threading.Thread(target=open_browser).start()
+    app.run(debug=True, host='0.0.0.0', port=5000)
