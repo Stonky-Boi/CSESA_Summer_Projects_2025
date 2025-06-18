@@ -253,6 +253,7 @@ src/cli_interface.o: src/cli_interface.cpp.o
 
 # target to build an object file
 src/cli_interface.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.o
 .PHONY : src/cli_interface.cpp.o
 
@@ -261,6 +262,7 @@ src/cli_interface.i: src/cli_interface.cpp.i
 
 # target to preprocess a source file
 src/cli_interface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.i
 .PHONY : src/cli_interface.cpp.i
 
@@ -269,6 +271,7 @@ src/cli_interface.s: src/cli_interface.cpp.s
 
 # target to generate assembly for a file
 src/cli_interface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.s
 .PHONY : src/cli_interface.cpp.s
 
@@ -301,6 +304,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
@@ -309,6 +313,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/main.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
@@ -317,6 +322,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/main.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 

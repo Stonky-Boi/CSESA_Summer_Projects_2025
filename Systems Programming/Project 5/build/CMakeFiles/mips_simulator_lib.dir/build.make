@@ -72,38 +72,10 @@ include CMakeFiles/mips_simulator_lib.dir/flags.make
 CMakeFiles/mips_simulator_lib.dir/codegen:
 .PHONY : CMakeFiles/mips_simulator_lib.dir/codegen
 
-CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
-CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/mips_simulator.cpp
-CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp"
-
-CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp" > CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i
-
-CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s
-
-CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
-CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/instruction_decoder.cpp
-CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp"
-
-CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp" > CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i
-
-CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s
-
 CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
 CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/alu.cpp
 CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/alu.cpp"
 
 CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.i: cmake_force
@@ -114,24 +86,10 @@ CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/alu.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.s
 
-CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
-CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/pipeline.cpp
-CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp"
-
-CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp" > CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i
-
-CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s
-
 CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
 CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/branch_predictor.cpp
 CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/branch_predictor.cpp"
 
 CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.i: cmake_force
@@ -142,25 +100,99 @@ CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/branch_predictor.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.s
 
+CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
+CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/cli_interface.cpp
+CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/cli_interface.cpp"
+
+CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/cli_interface.cpp" > CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.i
+
+CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/cli_interface.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.s
+
+CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
+CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/instruction_decoder.cpp
+CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp"
+
+CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp" > CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i
+
+CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction_decoder.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s
+
+CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
+CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/main.cpp
+CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/main.cpp"
+
+CMakeFiles/mips_simulator_lib.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/main.cpp" > CMakeFiles/mips_simulator_lib.dir/src/main.cpp.i
+
+CMakeFiles/mips_simulator_lib.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/main.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/main.cpp.s
+
+CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
+CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/mips_simulator.cpp
+CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp"
+
+CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp" > CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i
+
+CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s
+
+CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: CMakeFiles/mips_simulator_lib.dir/flags.make
+CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: /Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems\ Programming/Project\ 5/src/pipeline.cpp
+CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o: CMakeFiles/mips_simulator_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o -MF CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o.d -o CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o -c "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp"
+
+CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp" > CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i
+
+CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/pipeline.cpp" -o CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s
+
 # Object files for target mips_simulator_lib
 mips_simulator_lib_OBJECTS = \
-"CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o" \
-"CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o" \
 "CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o" \
-"CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o" \
-"CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o"
+"CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o" \
+"CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o" \
+"CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o" \
+"CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o" \
+"CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o" \
+"CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o"
 
 # External object files for target mips_simulator_lib
 mips_simulator_lib_EXTERNAL_OBJECTS =
 
-libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o
-libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o
 libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o
-libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o
 libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o
+libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/cli_interface.cpp.o
+libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o
+libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/main.cpp.o
+libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o
+libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o
 libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/build.make
 libmips_simulator_lib.a: CMakeFiles/mips_simulator_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libmips_simulator_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libmips_simulator_lib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/mips_simulator_lib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/mips_simulator_lib.dir/link.txt --verbose=$(VERBOSE)
 
