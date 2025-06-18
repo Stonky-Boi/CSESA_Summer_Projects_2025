@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O2 -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/mips_simulator.dir/src/main.cpp.o -o mips_simulator  libmips_simulator_lib.a
