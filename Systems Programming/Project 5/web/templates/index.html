@@ -5,926 +5,416 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MARS - MIPS Assembler and Runtime Simulator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/eclipse.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background-color: #f0f0f0;
-            overflow: hidden;
         }
-        
         .mars-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
-        
         .mars-menubar {
-            background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-            border-bottom: 1px solid #c0c0c0;
-            padding: 2px 5px;
-            font-size: 12px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
         }
-        
-        .mars-menubar .dropdown {
-            display: inline-block;
-            margin-right: 5px;
-        }
-        
-        .mars-menubar .btn {
-            font-size: 12px;
-            padding: 2px 8px;
-            background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-            border: 1px solid #c0c0c0;
-            color: #333;
-        }
-        
-        .mars-menubar .btn:hover {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-        }
-        
         .mars-toolbar {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
-            padding: 3px 5px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
             display: flex;
             align-items: center;
-            gap: 3px;
         }
-        
         .mars-toolbar button {
-            background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-            border: 1px solid #c0c0c0;
+            margin-right: 5px;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
             border-radius: 3px;
-            padding: 3px 6px;
+            padding: 3px 8px;
             cursor: pointer;
-            font-size: 11px;
-            min-width: 24px;
-            height: 24px;
         }
-        
         .mars-toolbar button:hover {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+            background-color: #e8e8e8;
         }
-        
         .mars-toolbar button:active {
-            background: linear-gradient(to bottom, #d8d8d8, #c8c8c8);
-            border-style: inset;
+            background-color: #d8d8d8;
         }
-        
-        .mars-toolbar button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
         .mars-toolbar .separator {
             width: 1px;
             height: 20px;
-            background-color: #c0c0c0;
-            margin: 0 3px;
+            background-color: #ccc;
+            margin: 0 10px;
         }
-        
-        .mars-toolbar .speed-control {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-            gap: 5px;
-            font-size: 11px;
-        }
-        
-        .speed-slider {
-            width: 80px;
-            height: 16px;
-        }
-        
         .mars-main {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
-        
         .mars-editor-container {
             display: flex;
             flex-direction: column;
             flex: 3;
-            border-right: 1px solid #c0c0c0;
-            background: #fff;
+            border-right: 1px solid #ddd;
         }
-        
         .mars-editor-tabs {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
             display: flex;
-            padding: 2px 5px 0 5px;
         }
-        
         .mars-editor-tab {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-            border: 1px solid #c0c0c0;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
-            padding: 3px 12px;
+            padding: 5px 15px;
+            border-right: 1px solid #ddd;
             cursor: pointer;
-            font-size: 11px;
-            margin-right: 2px;
+            background-color: #e8e8e8;
         }
-        
         .mars-editor-tab.active {
-            background: #fff;
+            background-color: #fff;
             border-bottom: 1px solid #fff;
             margin-bottom: -1px;
-            z-index: 1;
-            position: relative;
         }
-        
         .mars-editor {
             flex: 1;
-            overflow: hidden;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            overflow: auto;
+            background-color: #fff;
         }
-        
-        .mars-editor .CodeMirror {
+        .mars-editor textarea {
+            width: 100%;
             height: 100%;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
+            border: none;
+            resize: none;
+            font-family: monospace;
+            font-size: 14px;
+            outline: none;
         }
-        
-        .mars-right-panel {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-        }
-        
-        .mars-registers-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #c0c0c0;
-        }
-        
-        .mars-registers-tabs {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
-            display: flex;
-            padding: 2px 5px 0 5px;
-        }
-        
-        .mars-registers-tab {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-            border: 1px solid #c0c0c0;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
-            padding: 3px 8px;
-            cursor: pointer;
-            font-size: 11px;
-            margin-right: 2px;
-        }
-        
-        .mars-registers-tab.active {
-            background: #fff;
-            border-bottom: 1px solid #fff;
-            margin-bottom: -1px;
-            z-index: 1;
-            position: relative;
-        }
-        
-        .mars-registers-content {
+        .mars-registers {
             flex: 1;
             overflow: auto;
-            padding: 5px;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            padding: 10px;
         }
-        
-        .registers-table {
+        .mars-registers table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
         }
-        
-        .registers-table th {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border: 1px solid #c0c0c0;
-            padding: 3px 5px;
+        .mars-registers th, .mars-registers td {
+            border: 1px solid #ddd;
+            padding: 4px 8px;
             text-align: left;
-            font-weight: bold;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .mars-registers th {
+            background-color: #f0f0f0;
             position: sticky;
             top: 0;
         }
-        
-        .registers-table td {
-            border: 1px solid #e0e0e0;
-            padding: 2px 5px;
-            background: #fff;
+        .mars-registers tr:nth-child(even) {
+            background-color: #f8f8f8;
         }
-        
-        .registers-table tr:nth-child(even) td {
-            background: #f8f8f8;
-        }
-        
-        .registers-table tr:hover td {
-            background: #e8f4fd;
-        }
-        
-        .registers-table .register-value {
+        .mars-registers td.register-value {
             text-align: right;
-            font-weight: bold;
-            cursor: pointer;
         }
-        
-        .registers-table .register-value.changed {
-            background: #ffff99 !important;
-            animation: highlight-fade 2s ease-out;
+        .mars-registers td.register-value.changed {
+            background-color: #ffff99;
         }
-        
-        @keyframes highlight-fade {
-            0% { background: #ffff00 !important; }
-            100% { background: inherit; }
-        }
-        
-        .pipeline-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #c0c0c0;
-        }
-        
-        .pipeline-header {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
-            padding: 5px 10px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .pipeline-stages {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 10px;
-            background: linear-gradient(to right, #e8f4fd, #d4e9fc, #c0defc, #acd3fb, #98c8fa);
-        }
-        
-        .pipeline-stage {
-            flex: 1;
-            margin: 0 2px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #999;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 10px;
-            font-weight: bold;
-            min-height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .pipeline-stage.active {
-            background: #90EE90;
-            border-color: #006400;
-            box-shadow: 0 0 5px rgba(0, 100, 0, 0.5);
-        }
-        
-        .pipeline-stage.stalled {
-            background: #FFD700;
-            border-color: #FF8C00;
-        }
-        
-        .pipeline-stage.flushed {
-            background: #FFB6C1;
-            border-color: #DC143C;
-        }
-        
-        .mars-console-container {
+        .mars-console {
             height: 150px;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid #c0c0c0;
+            border-top: 1px solid #ddd;
+            background-color: #fff;
+            overflow: auto;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 5px;
         }
-        
         .mars-console-tabs {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
             display: flex;
-            padding: 2px 5px 0 5px;
         }
-        
         .mars-console-tab {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-            border: 1px solid #c0c0c0;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
-            padding: 3px 8px;
+            padding: 3px 10px;
+            border-right: 1px solid #ddd;
             cursor: pointer;
-            font-size: 11px;
-            margin-right: 2px;
+            background-color: #e8e8e8;
+            font-size: 12px;
         }
-        
         .mars-console-tab.active {
-            background: #fff;
+            background-color: #fff;
             border-bottom: 1px solid #fff;
             margin-bottom: -1px;
-            z-index: 1;
-            position: relative;
         }
-        
-        .mars-console {
-            flex: 1;
-            padding: 5px;
-            overflow: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            line-height: 1.3;
-            background: #fff;
-            white-space: pre-wrap;
-            display: none;
-        }
-        
-        .mars-console.active {
-            display: block;
-        }
-        
         .mars-status-bar {
-            background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-            border-top: 1px solid #c0c0c0;
-            padding: 2px 10px;
-            font-size: 11px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #ddd;
+            padding: 3px 10px;
+            font-size: 12px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
-        
-        .mars-memory-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+        .mars-memory-view {
             display: none;
-        }
-        
-        .mars-memory-window {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 80%;
             height: 80%;
-            background: #fff;
-            border: 2px solid #333;
-            border-radius: 5px;
-            display: flex;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
             flex-direction: column;
         }
-        
         .mars-memory-header {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
             padding: 5px 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            font-weight: bold;
         }
-        
         .mars-memory-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        
-        .mars-memory-tabs {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border-bottom: 1px solid #c0c0c0;
-            display: flex;
-            padding: 2px 5px 0 5px;
-        }
-        
-        .mars-memory-tab {
-            background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-            border: 1px solid #c0c0c0;
-            border-bottom: none;
-            border-radius: 3px 3px 0 0;
-            padding: 3px 8px;
-            cursor: pointer;
-            font-size: 11px;
-            margin-right: 2px;
-        }
-        
-        .mars-memory-tab.active {
-            background: #fff;
-            border-bottom: 1px solid #fff;
-            margin-bottom: -1px;
-            z-index: 1;
-            position: relative;
-        }
-        
-        .mars-memory-table-container {
-            flex: 1;
             overflow: auto;
-            padding: 5px;
-            display: none;
+            padding: 10px;
         }
-        
-        .mars-memory-table-container.active {
-            display: block;
-        }
-        
-        .memory-table {
+        .mars-memory-content table {
             width: 100%;
             border-collapse: collapse;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
         }
-        
-        .memory-table th {
-            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-            border: 1px solid #c0c0c0;
-            padding: 3px 5px;
+        .mars-memory-content th, .mars-memory-content td {
+            border: 1px solid #ddd;
+            padding: 4px 8px;
             text-align: left;
-            font-weight: bold;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .mars-memory-content th {
+            background-color: #f0f0f0;
             position: sticky;
             top: 0;
         }
-        
-        .memory-table td {
-            border: 1px solid #e0e0e0;
-            padding: 2px 5px;
-            background: #fff;
-        }
-        
-        .memory-table tr:nth-child(even) td {
-            background: #f8f8f8;
-        }
-        
-        .memory-table tr:hover td {
-            background: #e8f4fd;
-        }
-        
-        .memory-table .breakpoint-checkbox {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .memory-table .current-instruction {
-            background: #ffff99 !important;
-            font-weight: bold;
-        }
-        
-        .branch-stats-container {
-            padding: 10px;
-            background: #f8f8f8;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        
-        .branch-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-        }
-        
-        .branch-stat-item {
-            background: #fff;
-            padding: 10px;
-            border-radius: 3px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        
-        .branch-stat-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #007bff;
-        }
-        
-        .branch-stat-label {
-            font-size: 11px;
-            color: #666;
-            margin-top: 3px;
-        }
-        
-        .cpu-state-panel {
-            padding: 10px;
-            background: #f8f8f8;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        
-        .cpu-state-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .cpu-state-item {
-            background: #fff;
-            padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #ddd;
+        .mars-memory-footer {
+            background-color: #f0f0f0;
+            border-top: 1px solid #ddd;
+            padding: 5px 10px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: flex-end;
         }
-        
-        .cpu-state-label {
-            font-size: 11px;
-            color: #666;
+        .mars-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
-        
-        .cpu-state-value {
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .hazard-detection-panel {
-            padding: 10px;
-            background: #f8f8f8;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        
-        .hazard-item {
-            background: #fff;
-            padding: 8px;
-            margin: 3px 0;
-            border-radius: 3px;
-            border-left: 4px solid #28a745;
-            font-size: 11px;
-        }
-        
-        .hazard-item.warning {
-            border-left-color: #ffc107;
-            background: #fff8e1;
-        }
-        
-        .hazard-item.danger {
-            border-left-color: #dc3545;
-            background: #ffebee;
-        }
-        
-        .performance-metrics {
-            padding: 10px;
-            background: #f8f8f8;
-            border-radius: 5px;
-            margin: 5px;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 8px;
-        }
-        
-        .metric-item {
-            background: #fff;
-            padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 16px;
-            font-weight: bold;
-            color: #28a745;
-        }
-        
-        .metric-label {
-            font-size: 10px;
-            color: #666;
-            margin-top: 2px;
+        .speed-slider {
+            width: 100px;
+            margin: 0 10px;
         }
     </style>
 </head>
 <body>
     <div class="mars-container">
-        <!-- Menu Bar -->
         <div class="mars-menubar">
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="fileMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="fileMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     File
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" aria-labelledby="fileMenu">
                     <li><a class="dropdown-item" href="#" id="newFile">New</a></li>
-                    <li><a class="dropdown-item" href="#" id="openFile">Open...</a></li>
+                    <li><a class="dropdown-item" href="#" id="openFile">Open</a></li>
                     <li><a class="dropdown-item" href="#" id="saveFile">Save</a></li>
-                    <li><a class="dropdown-item" href="#" id="saveAsFile">Save As...</a></li>
+                    <li><a class="dropdown-item" href="#" id="saveAsFile">Save As</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" id="exitApp">Exit</a></li>
+                    <li><a class="dropdown-item" href="#" id="exit">Exit</a></li>
                 </ul>
             </div>
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="editMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="editMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     Edit
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" id="undoAction">Undo</a></li>
-                    <li><a class="dropdown-item" href="#" id="redoAction">Redo</a></li>
+                <ul class="dropdown-menu" aria-labelledby="editMenu">
+                    <li><a class="dropdown-item" href="#" id="undo">Undo</a></li>
+                    <li><a class="dropdown-item" href="#" id="redo">Redo</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" id="cutText">Cut</a></li>
-                    <li><a class="dropdown-item" href="#" id="copyText">Copy</a></li>
-                    <li><a class="dropdown-item" href="#" id="pasteText">Paste</a></li>
-                    <li><a class="dropdown-item" href="#" id="selectAllText">Select All</a></li>
+                    <li><a class="dropdown-item" href="#" id="cut">Cut</a></li>
+                    <li><a class="dropdown-item" href="#" id="copy">Copy</a></li>
+                    <li><a class="dropdown-item" href="#" id="paste">Paste</a></li>
+                    <li><a class="dropdown-item" href="#" id="selectAll">Select All</a></li>
                 </ul>
             </div>
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="runMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="runMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     Run
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" id="assembleProgram">Assemble</a></li>
-                    <li><a class="dropdown-item" href="#" id="runProgram">Go</a></li>
-                    <li><a class="dropdown-item" href="#" id="stepProgram">Step</a></li>
-                    <li><a class="dropdown-item" href="#" id="backstepProgram">Backstep</a></li>
-                    <li><a class="dropdown-item" href="#" id="resetProgram">Reset</a></li>
+                <ul class="dropdown-menu" aria-labelledby="runMenu">
+                    <li><a class="dropdown-item" href="#" id="assemble">Assemble</a></li>
+                    <li><a class="dropdown-item" href="#" id="go">Go</a></li>
+                    <li><a class="dropdown-item" href="#" id="step">Step</a></li>
+                    <li><a class="dropdown-item" href="#" id="backstep">Backstep</a></li>
+                    <li><a class="dropdown-item" href="#" id="reset">Reset</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" id="clearBreakpoints">Clear All Breakpoints</a></li>
                 </ul>
             </div>
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="settingsMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="settingsMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     Settings
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" aria-labelledby="settingsMenu">
                     <li><a class="dropdown-item" href="#" id="displaySettings">Display Settings</a></li>
-                    <li><a class="dropdown-item" href="#" id="memoryConfig">Memory Configuration</a></li>
-                    <li><a class="dropdown-item" href="#" id="assemblerSettings">Assembler Settings</a></li>
-                    <li><a class="dropdown-item" href="#" id="pipelineSettings">Pipeline Settings</a></li>
+                    <li><a class="dropdown-item" href="#" id="memoryConfiguration">Memory Configuration</a></li>
+                    <li><a class="dropdown-item" href="#" id="editorSettings">Editor Settings</a></li>
                 </ul>
             </div>
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="toolsMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="toolsMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     Tools
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" id="memoryViewer">Memory Viewer</a></li>
-                    <li><a class="dropdown-item" href="#" id="cacheSim">Cache Simulator</a></li>
+                <ul class="dropdown-menu" aria-labelledby="toolsMenu">
+                    <li><a class="dropdown-item" href="#" id="dataCache">Data Cache Simulator</a></li>
                     <li><a class="dropdown-item" href="#" id="instructionCounter">Instruction Counter</a></li>
-                    <li><a class="dropdown-item" href="#" id="performanceAnalyzer">Performance Analyzer</a></li>
-                    <li><a class="dropdown-item" href="#" id="hazardDetector">Hazard Detector</a></li>
+                    <li><a class="dropdown-item" href="#" id="memoryReference">Memory Reference Visualization</a></li>
+                    <li><a class="dropdown-item" href="#" id="keyboardDisplay">Keyboard and Display MMIO Simulator</a></li>
                 </ul>
             </div>
             <div class="dropdown d-inline-block">
-                <button class="btn btn-sm dropdown-toggle" type="button" id="helpMenu" data-bs-toggle="dropdown">
+                <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="helpMenu" data-bs-toggle="dropdown" aria-expanded="false">
                     Help
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" id="helpContents">Help</a></li>
-                    <li><a class="dropdown-item" href="#" id="instructionRef">MIPS Instruction Reference</a></li>
-                    <li><a class="dropdown-item" href="#" id="aboutMars">About MARS</a></li>
+                <ul class="dropdown-menu" aria-labelledby="helpMenu">
+                    <li><a class="dropdown-item" href="#" id="help">Help</a></li>
+                    <li><a class="dropdown-item" href="#" id="about">About</a></li>
                 </ul>
             </div>
         </div>
-
-        <!-- Toolbar -->
         <div class="mars-toolbar">
-            <button id="newBtn" title="New File (Ctrl+N)">📄</button>
-            <button id="openBtn" title="Open File (Ctrl+O)">📁</button>
-            <button id="saveBtn" title="Save File (Ctrl+S)">💾</button>
+            <button id="newBtn" title="New File"><i class="fas fa-file"></i></button>
+            <button id="openBtn" title="Open File"><i class="fas fa-folder-open"></i></button>
+            <button id="saveBtn" title="Save File"><i class="fas fa-save"></i></button>
             <div class="separator"></div>
-            <button id="assembleBtn" title="Assemble (F3)">🔧</button>
-            <button id="runBtn" title="Run (F5)">▶️</button>
-            <button id="stepBtn" title="Step (F7)">⏯️</button>
-            <button id="backstepBtn" title="Backstep (F8)">⏪</button>
-            <button id="resetBtn" title="Reset (F12)">🔄</button>
+            <button id="assembleBtn" title="Assemble"><i class="fas fa-cogs"></i></button>
+            <button id="runBtn" title="Run"><i class="fas fa-play"></i></button>
+            <button id="stepBtn" title="Step"><i class="fas fa-step-forward"></i></button>
+            <button id="backstepBtn" title="Backstep"><i class="fas fa-step-backward"></i></button>
+            <button id="resetBtn" title="Reset"><i class="fas fa-redo"></i></button>
             <div class="separator"></div>
-            <button id="pauseBtn" title="Pause">⏸️</button>
-            <button id="stopBtn" title="Stop">⏹️</button>
+            <button id="stopBtn" title="Stop"><i class="fas fa-stop"></i></button>
             <div class="separator"></div>
-            <button id="pipelineToggle" title="Toggle Pipeline View">🔗</button>
-            <button id="branchPredToggle" title="Toggle Branch Prediction">🎯</button>
-            <div class="speed-control">
-                <span>Speed:</span>
-                <input type="range" id="speedSlider" class="speed-slider" min="1" max="30" value="10">
-                <span id="speedValue">10 inst/sec</span>
-            </div>
+            <span>Run Speed:</span>
+            <input type="range" class="speed-slider" min="1" max="30" value="20" id="speedSlider">
+            <span id="speedValue">20 inst/sec</span>
         </div>
-
-        <!-- Main Content Area -->
         <div class="mars-main">
-            <!-- Editor Container -->
             <div class="mars-editor-container">
                 <div class="mars-editor-tabs">
-                    <div class="mars-editor-tab active" id="editorTab">untitled.asm</div>
+                    <div class="mars-editor-tab active">untitled.asm</div>
                 </div>
                 <div class="mars-editor">
-                    <textarea id="codeEditor"></textarea>
+                    <textarea id="codeEditor" placeholder="# Enter your MIPS assembly code here"></textarea>
                 </div>
             </div>
-
-            <!-- Right Panel -->
-            <div class="mars-right-panel">
-                <!-- Registers Container -->
-                <div class="mars-registers-container">
-                    <div class="mars-registers-tabs">
-                        <div class="mars-registers-tab active" data-target="registers">Registers</div>
-                        <div class="mars-registers-tab" data-target="coprocessor1">Coproc 1</div>
-                        <div class="mars-registers-tab" data-target="coprocessor0">Coproc 0</div>
-                    </div>
-                    <div class="mars-registers-content">
-                        <div id="registers" class="registers-panel active">
-                            <table class="registers-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Number</th>
-                                        <th>Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="registerTableBody">
-                                    <!-- Populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="coprocessor1" class="registers-panel" style="display: none;">
-                            <table class="registers-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Number</th>
-                                        <th>Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="coproc1TableBody">
-                                    <!-- Populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="coprocessor0" class="registers-panel" style="display: none;">
-                            <table class="registers-table">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Number</th>
-                                        <th>Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="coproc0TableBody">
-                                    <!-- Populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div class="mars-registers">
+                <div class="nav nav-tabs" id="registerTabs" role="tablist">
+                    <button class="nav-link active" id="registers-tab" data-bs-toggle="tab" data-bs-target="#registers" type="button" role="tab" aria-controls="registers" aria-selected="true">Registers</button>
+                    <button class="nav-link" id="coproc1-tab" data-bs-toggle="tab" data-bs-target="#coproc1" type="button" role="tab" aria-controls="coproc1" aria-selected="false">Coproc 1</button>
+                    <button class="nav-link" id="coproc0-tab" data-bs-toggle="tab" data-bs-target="#coproc0" type="button" role="tab" aria-controls="coproc0" aria-selected="false">Coproc 0</button>
                 </div>
-
-                <!-- Pipeline Container -->
-                <div class="pipeline-container" id="pipelineContainer" style="display: none;">
-                    <div class="pipeline-header">Pipeline Stages</div>
-                    <div class="pipeline-stages">
-                        <div class="pipeline-stage" id="stageIF">
-                            <div>IF</div>
-                            <div id="ifInstr">NOP</div>
-                        </div>
-                        <div class="pipeline-stage" id="stageID">
-                            <div>ID</div>
-                            <div id="idInstr">NOP</div>
-                        </div>
-                        <div class="pipeline-stage" id="stageEX">
-                            <div>EX</div>
-                            <div id="exInstr">NOP</div>
-                        </div>
-                        <div class="pipeline-stage" id="stageMEM">
-                            <div>MEM</div>
-                            <div id="memInstr">NOP</div>
-                        </div>
-                        <div class="pipeline-stage" id="stageWB">
-                            <div>WB</div>
-                            <div id="wbInstr">NOP</div>
-                        </div>
+                <div class="tab-content" id="registerTabContent">
+                    <div class="tab-pane fade show active" id="registers" role="tabpanel" aria-labelledby="registers-tab">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registerTable">
+                                <!-- Register values will be populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="hazard-detection-panel">
-                        <strong>Hazard Detection:</strong>
-                        <div id="hazardList">
-                            <div class="hazard-item">No hazards detected</div>
-                        </div>
+                    <div class="tab-pane fade" id="coproc1" role="tabpanel" aria-labelledby="coproc1-tab">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coproc1Table">
+                                <!-- Coprocessor 1 values will be populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-
-                <!-- CPU State Panel -->
-                <div class="cpu-state-panel">
-                    <strong>CPU State:</strong>
-                    <div class="cpu-state-grid">
-                        <div class="cpu-state-item">
-                            <span class="cpu-state-label">PC:</span>
-                            <span class="cpu-state-value" id="pcValue">0x00400000</span>
-                        </div>
-                        <div class="cpu-state-item">
-                            <span class="cpu-state-label">Cycle:</span>
-                            <span class="cpu-state-value" id="cycleCount">0</span>
-                        </div>
-                        <div class="cpu-state-item">
-                            <span class="cpu-state-label">Status:</span>
-                            <span class="cpu-state-value" id="statusValue">Ready</span>
-                        </div>
-                        <div class="cpu-state-item">
-                            <span class="cpu-state-label">Instructions:</span>
-                            <span class="cpu-state-value" id="instrCount">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Branch Prediction Stats -->
-                <div class="branch-stats-container" id="branchStatsContainer" style="display: none;">
-                    <strong>Branch Prediction Statistics:</strong>
-                    <div class="branch-stats-grid">
-                        <div class="branch-stat-item">
-                            <div class="branch-stat-value" id="totalBranches">0</div>
-                            <div class="branch-stat-label">Total Branches</div>
-                        </div>
-                        <div class="branch-stat-item">
-                            <div class="branch-stat-value" id="correctPreds">0</div>
-                            <div class="branch-stat-label">Correct</div>
-                        </div>
-                        <div class="branch-stat-item">
-                            <div class="branch-stat-value" id="incorrectPreds">0</div>
-                            <div class="branch-stat-label">Incorrect</div>
-                        </div>
-                        <div class="branch-stat-item">
-                            <div class="branch-stat-value" id="predAccuracy">0%</div>
-                            <div class="branch-stat-label">Accuracy</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Performance Metrics -->
-                <div class="performance-metrics">
-                    <strong>Performance Metrics:</strong>
-                    <div class="metrics-grid">
-                        <div class="metric-item">
-                            <div class="metric-value" id="cpiValue">1.00</div>
-                            <div class="metric-label">CPI</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value" id="stallCycles">0</div>
-                            <div class="metric-label">Stalls</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value" id="ipcValue">1.00</div>
-                            <div class="metric-label">IPC</div>
-                        </div>
-                        <div class="metric-item">
-                            <div class="metric-value" id="efficiency">100%</div>
-                            <div class="metric-label">Efficiency</div>
-                        </div>
+                    <div class="tab-pane fade" id="coproc0" role="tabpanel" aria-labelledby="coproc0-tab">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Number</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coproc0Table">
+                                <!-- Coprocessor 0 values will be populated by JavaScript -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Console Container -->
-        <div class="mars-console-container">
-            <div class="mars-console-tabs">
-                <div class="mars-console-tab active" data-target="marsMessages">MARS Messages</div>
-                <div class="mars-console-tab" data-target="runIO">Run I/O</div>
-            </div>
-            <div class="mars-console active" id="marsMessages">MARS 4.5 Copyright 2003-2014 Pete Sanderson and Kenneth Vollmar
-
-Welcome to the MIPS Assembler and Runtime Simulator.
-Enhanced with 5-stage pipeline simulation and advanced branch prediction.</div>
-            <div class="mars-console" id="runIO"><!-- Program output will appear here --></div>
+        <div class="mars-console-tabs">
+            <div class="mars-console-tab active" data-target="mars-messages">MARS Messages</div>
+            <div class="mars-console-tab" data-target="run-io">Run I/O</div>
         </div>
-
-        <!-- Status Bar -->
+        <div class="mars-console" id="mars-messages">
+            MARS 4.5 Copyright 2003-2014 Pete Sanderson and Kenneth Vollmar
+            
+            Welcome to the MIPS Assembler and Runtime Simulator.
+        </div>
+        <div class="mars-console" id="run-io" style="display: none;">
+            <!-- Run I/O content will be populated during execution -->
+        </div>
         <div class="mars-status-bar">
-            <div id="statusMessage">Ready</div>
-            <div id="cursorPosition">Line: 1, Column: 1</div>
+            <div>Ready</div>
+            <div>Line: 1, Column: 1</div>
         </div>
     </div>
 
-    <!-- Memory Viewer Overlay -->
-    <div class="mars-memory-overlay" id="memoryOverlay">
-        <div class="mars-memory-window">
-            <div class="mars-memory-header">
-                <span>Memory</span>
-                <button id="closeMemoryBtn" style="background: none; border: none; font-size: 16px; cursor: pointer;">❌</button>
+    <div class="mars-overlay" id="overlay"></div>
+    <div class="mars-memory-view" id="memoryView">
+        <div class="mars-memory-header">
+            <h5>Memory</h5>
+            <button class="btn btn-sm btn-close" id="closeMemoryView"></button>
+        </div>
+        <div class="mars-memory-content">
+            <div class="nav nav-tabs" id="memoryTabs" role="tablist">
+                <button class="nav-link active" id="text-tab" data-bs-toggle="tab" data-bs-target="#text" type="button" role="tab" aria-controls="text" aria-selected="true">Text Segment</button>
+                <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="data" aria-selected="false">Data Segment</button>
+                <button class="nav-link" id="stack-tab" data-bs-toggle="tab" data-bs-target="#stack" type="button" role="tab" aria-controls="stack" aria-selected="false">Stack</button>
+                <button class="nav-link" id="kernel-tab" data-bs-toggle="tab" data-bs-target="#kernel" type="button" role="tab" aria-controls="kernel" aria-selected="false">Kernel</button>
             </div>
-            <div class="mars-memory-content">
-                <div class="mars-memory-tabs">
-                    <div class="mars-memory-tab active" data-target="textSegment">Text Segment</div>
-                    <div class="mars-memory-tab" data-target="dataSegment">Data Segment</div>
-                    <div class="mars-memory-tab" data-target="stackSegment">Stack</div>
-                    <div class="mars-memory-tab" data-target="kernelSegment">Kernel Text</div>
-                </div>
-                <div class="mars-memory-table-container active" id="textSegment">
-                    <table class="memory-table">
+            <div class="tab-content" id="memoryTabContent">
+                <div class="tab-pane fade show active" id="text" role="tabpanel" aria-labelledby="text-tab">
+                    <table>
                         <thead>
                             <tr>
-                                <th>Bkpt</th>
                                 <th>Address</th>
                                 <th>Code</th>
                                 <th>Basic</th>
@@ -932,91 +422,65 @@ Enhanced with 5-stage pipeline simulation and advanced branch prediction.</div>
                             </tr>
                         </thead>
                         <tbody id="textSegmentTable">
-                            <!-- Populated by JavaScript -->
+                            <!-- Text segment will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
-                <div class="mars-memory-table-container" id="dataSegment">
-                    <table class="memory-table">
+                <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Address</th>
-                                <th>Value(+0)</th>
-                                <th>Value(+4)</th>
-                                <th>Value(+8)</th>
-                                <th>Value(+c)</th>
+                                <th>Value (+0)</th>
+                                <th>Value (+4)</th>
+                                <th>Value (+8)</th>
+                                <th>Value (+c)</th>
                                 <th>ASCII</th>
                             </tr>
                         </thead>
                         <tbody id="dataSegmentTable">
-                            <!-- Populated by JavaScript -->
+                            <!-- Data segment will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
-                <div class="mars-memory-table-container" id="stackSegment">
-                    <table class="memory-table">
+                <div class="tab-pane fade" id="stack" role="tabpanel" aria-labelledby="stack-tab">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Address</th>
-                                <th>Value(+0)</th>
-                                <th>Value(+4)</th>
-                                <th>Value(+8)</th>
-                                <th>Value(+c)</th>
+                                <th>Value (+0)</th>
+                                <th>Value (+4)</th>
+                                <th>Value (+8)</th>
+                                <th>Value (+c)</th>
                                 <th>ASCII</th>
                             </tr>
                         </thead>
                         <tbody id="stackTable">
-                            <!-- Populated by JavaScript -->
+                            <!-- Stack will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
-                <div class="mars-memory-table-container" id="kernelSegment">
-                    <table class="memory-table">
+                <div class="tab-pane fade" id="kernel" role="tabpanel" aria-labelledby="kernel-tab">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Address</th>
-                                <th>Value(+0)</th>
-                                <th>Value(+4)</th>
-                                <th>Value(+8)</th>
-                                <th>Value(+c)</th>
+                                <th>Value (+0)</th>
+                                <th>Value (+4)</th>
+                                <th>Value (+8)</th>
+                                <th>Value (+c)</th>
                                 <th>ASCII</th>
                             </tr>
                         </thead>
                         <tbody id="kernelTable">
-                            <!-- Populated by JavaScript -->
+                            <!-- Kernel will be populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- About Modal -->
-    <div class="modal fade" id="aboutModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">About MARS</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <h4>MARS (MIPS Assembler and Runtime Simulator)</h4>
-                    <p><strong>Enhanced Version 4.5+</strong></p>
-                    <p>Copyright © 2003-2014 Pete Sanderson and Kenneth Vollmar</p>
-                    <p>Enhanced with advanced features:</p>
-                    <ul>
-                        <li>5-stage pipeline simulation with hazard detection</li>
-                        <li>Advanced branch prediction algorithms</li>
-                        <li>Real-time performance metrics</li>
-                        <li>Enhanced memory visualization</li>
-                        <li>Interactive debugging tools</li>
-                    </ul>
-                    <p>MARS is a lightweight interactive development environment (IDE) for programming in MIPS assembly language, intended for educational-level use with Patterson and Hennessy's Computer Organization and Design.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
+        <div class="mars-memory-footer">
+            <button class="btn btn-sm btn-secondary" id="memoryRefresh">Refresh</button>
         </div>
     </div>
 
@@ -1037,9 +501,29 @@ Enhanced with 5-stage pipeline simulation and advanced branch prediction.</div>
         </div>
     </div>
 
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">About MARS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>MARS (MIPS Assembler and Runtime Simulator)</h4>
+                    <p>Version 4.5</p>
+                    <p>Copyright &copy; 2003-2014 Pete Sanderson and Kenneth Vollmar</p>
+                    <p>MARS is a lightweight interactive development environment (IDE) for programming in MIPS assembly language, intended for educational-level use with Patterson and Hennessy's Computer Organization and Design.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/gas/gas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="{{ url_for('static', filename='js/simulator.js') }}"></script>
 </body>
 </html>
