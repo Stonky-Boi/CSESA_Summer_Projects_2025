@@ -5,12 +5,6 @@
 #include <cstdint>
 #include <memory>
 
-// Forward declarations for UI components
-class EditorPane;
-class RegistersPane;
-class ExecutionPane;
-class ConsolePane;
-
 class MIPSSimulator {
 public:
     // Constructor and destructor
@@ -43,13 +37,6 @@ public:
     // Execution modes
     void setStepMode(bool step_mode);
     bool getStepMode() const;
-    
-    // UI-related methods
-    void setEditorPane(EditorPane* pane);
-    void setRegistersPane(RegistersPane* pane);
-    void setExecutionPane(ExecutionPane* pane);
-    void setConsolePane(ConsolePane* pane);
-    void updateUI();
 
 private:
     // Core components
@@ -110,10 +97,4 @@ private:
     uint32_t signExtend16(uint16_t value);
     bool isValidAddress(uint32_t address) const;
     void printInstruction(const Instruction& instr) const;
-    
-    // UI components
-    EditorPane* editor_pane;
-    RegistersPane* registers_pane;
-    ExecutionPane* execution_pane;
-    ConsolePane* console_pane;
 };
