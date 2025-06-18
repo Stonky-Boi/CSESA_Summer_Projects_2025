@@ -59,11 +59,11 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/mips_simulator" TYPE FILE FILES
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/alu.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/branch_predictor.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/instruction_decoder.hpp"
     "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/mips_simulator.hpp"
+    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/instruction_decoder.hpp"
+    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/alu.hpp"
     "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/pipeline.hpp"
+    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/branch_predictor.hpp"
     )
 endif()
 
