@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O2 -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/mips_cli.dir/src/cli_interface.cpp.o -o mips_cli  libmips_simulator_lib.a
