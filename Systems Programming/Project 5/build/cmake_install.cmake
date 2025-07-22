@@ -37,36 +37,6 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/mips_simulator")
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_simulator" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_simulator")
-    if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" -u -r "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_simulator")
-    endif()
-  endif()
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/mips_cli")
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_cli" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_cli")
-    if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" -u -r "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/mips_cli")
-    endif()
-  endif()
-endif()
-
-if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/mips_simulator" TYPE FILE FILES
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/mips_simulator.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/instruction_decoder.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/alu.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/pipeline.hpp"
-    "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/include/branch_predictor.hpp"
-    )
-endif()
-
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)

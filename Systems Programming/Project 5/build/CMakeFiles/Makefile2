@@ -63,15 +63,13 @@ CMAKE_BINARY_DIR = "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Syste
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/mips_simulator_lib.dir/all
 all: CMakeFiles/mips_simulator.dir/all
-all: CMakeFiles/mips_cli.dir/all
+all: CMakeFiles/info.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/mips_simulator_lib.dir/codegen
 codegen: CMakeFiles/mips_simulator.dir/codegen
-codegen: CMakeFiles/mips_cli.dir/codegen
+codegen: CMakeFiles/info.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -79,56 +77,23 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/mips_simulator_lib.dir/clean
 clean: CMakeFiles/mips_simulator.dir/clean
-clean: CMakeFiles/mips_cli.dir/clean
+clean: CMakeFiles/info.dir/clean
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/mips_simulator_lib.dir
-
-# All Build rule for target.
-CMakeFiles/mips_simulator_lib.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=5,6,7,8,9,10 "Built target mips_simulator_lib"
-.PHONY : CMakeFiles/mips_simulator_lib.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/mips_simulator_lib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 6
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mips_simulator_lib.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 0
-.PHONY : CMakeFiles/mips_simulator_lib.dir/rule
-
-# Convenience name for target.
-mips_simulator_lib: CMakeFiles/mips_simulator_lib.dir/rule
-.PHONY : mips_simulator_lib
-
-# codegen rule for target.
-CMakeFiles/mips_simulator_lib.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=5,6,7,8,9,10 "Finished codegen for target mips_simulator_lib"
-.PHONY : CMakeFiles/mips_simulator_lib.dir/codegen
-
-# clean rule for target.
-CMakeFiles/mips_simulator_lib.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/clean
-.PHONY : CMakeFiles/mips_simulator_lib.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/mips_simulator.dir
 
 # All Build rule for target.
-CMakeFiles/mips_simulator.dir/all: CMakeFiles/mips_simulator_lib.dir/all
+CMakeFiles/mips_simulator.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=3,4 "Built target mips_simulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=1,2,3,4,5,6 "Built target mips_simulator"
 .PHONY : CMakeFiles/mips_simulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/mips_simulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 8
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mips_simulator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 0
 .PHONY : CMakeFiles/mips_simulator.dir/rule
@@ -140,7 +105,7 @@ mips_simulator: CMakeFiles/mips_simulator.dir/rule
 # codegen rule for target.
 CMakeFiles/mips_simulator.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=3,4 "Finished codegen for target mips_simulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=1,2,3,4,5,6 "Finished codegen for target mips_simulator"
 .PHONY : CMakeFiles/mips_simulator.dir/codegen
 
 # clean rule for target.
@@ -149,36 +114,36 @@ CMakeFiles/mips_simulator.dir/clean:
 .PHONY : CMakeFiles/mips_simulator.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/mips_cli.dir
+# Target rules for target CMakeFiles/info.dir
 
 # All Build rule for target.
-CMakeFiles/mips_cli.dir/all: CMakeFiles/mips_simulator_lib.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=1,2 "Built target mips_cli"
-.PHONY : CMakeFiles/mips_cli.dir/all
+CMakeFiles/info.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/info.dir/build.make CMakeFiles/info.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/info.dir/build.make CMakeFiles/info.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num= "Built target info"
+.PHONY : CMakeFiles/info.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/mips_cli.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mips_cli.dir/all
+CMakeFiles/info.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 0
-.PHONY : CMakeFiles/mips_cli.dir/rule
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/info.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" 0
+.PHONY : CMakeFiles/info.dir/rule
 
 # Convenience name for target.
-mips_cli: CMakeFiles/mips_cli.dir/rule
-.PHONY : mips_cli
+info: CMakeFiles/info.dir/rule
+.PHONY : info
 
 # codegen rule for target.
-CMakeFiles/mips_cli.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num=1,2 "Finished codegen for target mips_cli"
-.PHONY : CMakeFiles/mips_cli.dir/codegen
+CMakeFiles/info.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/info.dir/build.make CMakeFiles/info.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" --progress-num= "Finished codegen for target info"
+.PHONY : CMakeFiles/info.dir/codegen
 
 # clean rule for target.
-CMakeFiles/mips_cli.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/clean
-.PHONY : CMakeFiles/mips_cli.dir/clean
+CMakeFiles/info.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/info.dir/build.make CMakeFiles/info.dir/clean
+.PHONY : CMakeFiles/info.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

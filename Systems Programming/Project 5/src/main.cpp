@@ -1,114 +1,100 @@
-#include "mips_simulator.hpp"
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <iomanip>
+#include "mips_simulator.hpp"
 
-void printUsage(const char* program_name) {
-    std::cout << "Usage: " << program_name << " <program_file> [options]\n";
-    std::cout << "\nOptions:\n";
-    std::cout << "  --step           Enable step-by-step execution\n";
-    std::cout << "  --pipeline       Enable 5-stage pipeline simulation\n";
-    std::cout << "  --branch-pred    Enable branch prediction\n";
-    std::cout << "  --pred-type TYPE Set branch predictor type (static|1bit|2bit)\n";
-    std::cout << "  --help           Show this help message\n";
-    std::cout << "\nExample:\n";
-    std::cout << "  " << program_name << " program.txt --pipeline --branch-pred --pred-type 2bit\n";
+// Function to escape strings for JSON
+std::string escape_json(const std::string &s) {
+    std::ostringstream o;
+    for (auto c = s.cbegin(); c != s.cend(); c++) {
+        switch (*c) {
+            case '"': o << "\\\""; break;
+            case '\\': o << "\\\\"; break;
+            case '\b': o << "\\b"; break;
+            case '\f': o << "\\f"; break;
+            case '\n': o << "\\n"; break;
+            case '\r': o << "\\r"; break;
+            case '\t': o << "\\t"; break;
+            default:
+                if ('\x00' <= *c && *c <= '\x1f') {
+                    o << "\\u" << std::hex << std::setw(4) << std::setfill('0') << (int)*c;
+                } else {
+                    o << *c;
+                }
+        }
+    }
+    return o.str();
+}
+
+void output_json_state(const MipsSimulator& sim) {
+    std::cout << "{" << std::endl;
+
+    // PC
+    std::cout << "  \"pc\": " << sim.get_registers().get_pc() << "," << std::endl;
+    
+    // Registers
+    std::cout << "  \"registers\": {" << std::endl;
+    auto regs = sim.get_registers().get_registers();
+    for (int i = 0; i < 32; ++i) {
+        std::cout << "    \"" << RegisterFile::get_reg_name(i) << "\": " << regs[i] << (i == 31 ? "" : ",") << std::endl;
+    }
+    std::cout << "  }," << std::endl;
+    
+    // Console Output
+    std::cout << "  \"console_output\": \"" << escape_json(sim.get_console_output()) << "\"," << std::endl;
+
+    // Memory (only showing first 256 bytes for brevity)
+    std::cout << "  \"memory\": {" << std::endl;
+    auto mem = sim.get_memory().get_memory_state();
+    std::cout << "    \"data_segment_hex\": \"";
+    std::stringstream hex_stream;
+    for(size_t i = 0; i < 256 && i < mem.size(); ++i) {
+        hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)mem[i];
+    }
+    std::cout << hex_stream.str() << "\"" << std::endl;
+    std::cout << "  }" << std::endl;
+
+
+    std::cout << "}" << std::endl;
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        printUsage(argv[0]);
+    if (argc < 3) {
+        std::cerr << "Usage: " << argv[0] << " <filepath> [--run | --step]" << std::endl;
         return 1;
     }
-    
-    std::string program_file = argv[1];
-    bool step_mode = false;
-    bool pipeline_enabled = false;
-    bool branch_prediction = false;
-    std::string predictor_type = "static";
-    
-    // Parse command line arguments
-    for (int i = 2; i < argc; i++) {
-        std::string arg = argv[i];
-        
-        if (arg == "--help") {
-            printUsage(argv[0]);
-            return 0;
-        } else if (arg == "--step") {
-            step_mode = true;
-        } else if (arg == "--pipeline") {
-            pipeline_enabled = true;
-        } else if (arg == "--branch-pred") {
-            branch_prediction = true;
-        } else if (arg == "--pred-type" && i + 1 < argc) {
-            predictor_type = argv[++i];
-        } else {
-            std::cerr << "Unknown option: " << arg << std::endl;
-            printUsage(argv[0]);
-            return 1;
-        }
-    }
-    
-    // Create and configure simulator
-    MIPSSimulator simulator;
-    simulator.setStepMode(step_mode);
-    simulator.enablePipeline(pipeline_enabled);
-    simulator.enableBranchPrediction(branch_prediction, predictor_type);
-    
-    // Load program
-    if (!simulator.loadProgram(program_file)) {
-        std::cerr << "Error: Could not load program file: " << program_file << std::endl;
+
+    std::string filepath = argv[1];
+    std::string mode = argv[2];
+
+    std::ifstream file(filepath);
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open file " << filepath << std::endl;
         return 1;
     }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string code = buffer.str();
     
-    std::cout << "MIPS Simulator\n";
-    std::cout << "==============\n";
-    std::cout << "Program: " << program_file << "\n";
-    std::cout << "Step Mode: " << (step_mode ? "Enabled" : "Disabled") << "\n";
-    std::cout << "Pipeline: " << (pipeline_enabled ? "Enabled" : "Disabled") << "\n";
-    std::cout << "Branch Prediction: " << (branch_prediction ? "Enabled (" + predictor_type + ")" : "Disabled") << "\n";
-    std::cout << "\n";
-    
-    if (step_mode) {
-        std::string input;
-        int cycle = 0;
-        
-        while (!simulator.isHalted()) {
-            std::cout << "\n--- Cycle " << ++cycle << " ---\n";
-            std::cout << simulator.getStateString();
-            
-            if (pipeline_enabled) {
-                std::cout << "\n" << simulator.getPipelineStateString();
-            }
-            
-            std::cout << "\nPress Enter to continue (or 'q' to quit): ";
-            std::getline(std::cin, input);
-            
-            if (input == "q" || input == "quit") {
-                break;
-            }
-            
-            if (!simulator.step()) {
-                std::cout << "\nSimulation completed or error occurred.\n";
-                break;
-            }
+    MipsSimulator simulator;
+    try {
+        simulator.load_program_from_string(code);
+        if (mode == "--run") {
+            simulator.run();
+        } else if (mode == "--step") {
+            // In a real step-by-step from web, we'd load state, step, and return.
+            // This is a simplified CLI version.
+            simulator.step();
         }
-    } else {
-        // Run simulation
-        simulator.run();
-        
-        std::cout << "Simulation completed.\n\n";
-        std::cout << "Final State:\n";
-        std::cout << simulator.getStateString();
-        
-        if (pipeline_enabled) {
-            std::cout << "\n" << simulator.getPipelineStateString();
-        }
+        output_json_state(simulator);
+
+    } catch (const std::exception& e) {
+        std::cerr << "{\"error\": \"" << escape_json(e.what()) << "\"}" << std::endl;
+        return 1;
     }
-    
-    if (branch_prediction) {
-        std::cout << "\n" << simulator.getBranchPredictionStats();
-    }
-    
+
     return 0;
 }

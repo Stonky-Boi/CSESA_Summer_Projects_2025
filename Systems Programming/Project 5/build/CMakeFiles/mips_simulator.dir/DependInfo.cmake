@@ -8,7 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/instruction.cpp" "CMakeFiles/mips_simulator.dir/src/instruction.cpp.o" "gcc" "CMakeFiles/mips_simulator.dir/src/instruction.cpp.o.d"
   "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/main.cpp" "CMakeFiles/mips_simulator.dir/src/main.cpp.o" "gcc" "CMakeFiles/mips_simulator.dir/src/main.cpp.o.d"
+  "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/memory.cpp" "CMakeFiles/mips_simulator.dir/src/memory.cpp.o" "gcc" "CMakeFiles/mips_simulator.dir/src/memory.cpp.o.d"
+  "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/mips_simulator.cpp" "CMakeFiles/mips_simulator.dir/src/mips_simulator.cpp.o" "gcc" "CMakeFiles/mips_simulator.dir/src/mips_simulator.cpp.o.d"
+  "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/src/register_file.cpp" "CMakeFiles/mips_simulator.dir/src/register_file.cpp.o" "gcc" "CMakeFiles/mips_simulator.dir/src/register_file.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

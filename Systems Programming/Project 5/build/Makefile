@@ -85,51 +85,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/opt/homebrew/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/opt/homebrew/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build/CMakeFiles" "/Users/arnav/Desktop/GitHub/CSESA_Summer_Projects_2025/Systems Programming/Project 5/build//CMakeFiles/progress.marks"
@@ -162,19 +117,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named mips_simulator_lib
-
-# Build rule for target.
-mips_simulator_lib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mips_simulator_lib
-.PHONY : mips_simulator_lib
-
-# fast build rule for target.
-mips_simulator_lib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/build
-.PHONY : mips_simulator_lib/fast
-
-#=============================================================================
 # Target rules for targets named mips_simulator
 
 # Build rule for target.
@@ -188,113 +130,41 @@ mips_simulator/fast:
 .PHONY : mips_simulator/fast
 
 #=============================================================================
-# Target rules for targets named mips_cli
+# Target rules for targets named info
 
 # Build rule for target.
-mips_cli: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mips_cli
-.PHONY : mips_cli
+info: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 info
+.PHONY : info
 
 # fast build rule for target.
-mips_cli/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/build
-.PHONY : mips_cli/fast
+info/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/info.dir/build.make CMakeFiles/info.dir/build
+.PHONY : info/fast
 
-src/alu.o: src/alu.cpp.o
-.PHONY : src/alu.o
-
-# target to build an object file
-src/alu.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.o
-.PHONY : src/alu.cpp.o
-
-src/alu.i: src/alu.cpp.i
-.PHONY : src/alu.i
-
-# target to preprocess a source file
-src/alu.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.i
-.PHONY : src/alu.cpp.i
-
-src/alu.s: src/alu.cpp.s
-.PHONY : src/alu.s
-
-# target to generate assembly for a file
-src/alu.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/alu.cpp.s
-.PHONY : src/alu.cpp.s
-
-src/branch_predictor.o: src/branch_predictor.cpp.o
-.PHONY : src/branch_predictor.o
+src/instruction.o: src/instruction.cpp.o
+.PHONY : src/instruction.o
 
 # target to build an object file
-src/branch_predictor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.o
-.PHONY : src/branch_predictor.cpp.o
+src/instruction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/instruction.cpp.o
+.PHONY : src/instruction.cpp.o
 
-src/branch_predictor.i: src/branch_predictor.cpp.i
-.PHONY : src/branch_predictor.i
-
-# target to preprocess a source file
-src/branch_predictor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.i
-.PHONY : src/branch_predictor.cpp.i
-
-src/branch_predictor.s: src/branch_predictor.cpp.s
-.PHONY : src/branch_predictor.s
-
-# target to generate assembly for a file
-src/branch_predictor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/branch_predictor.cpp.s
-.PHONY : src/branch_predictor.cpp.s
-
-src/cli_interface.o: src/cli_interface.cpp.o
-.PHONY : src/cli_interface.o
-
-# target to build an object file
-src/cli_interface.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.o
-.PHONY : src/cli_interface.cpp.o
-
-src/cli_interface.i: src/cli_interface.cpp.i
-.PHONY : src/cli_interface.i
+src/instruction.i: src/instruction.cpp.i
+.PHONY : src/instruction.i
 
 # target to preprocess a source file
-src/cli_interface.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.i
-.PHONY : src/cli_interface.cpp.i
+src/instruction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/instruction.cpp.i
+.PHONY : src/instruction.cpp.i
 
-src/cli_interface.s: src/cli_interface.cpp.s
-.PHONY : src/cli_interface.s
-
-# target to generate assembly for a file
-src/cli_interface.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_cli.dir/build.make CMakeFiles/mips_cli.dir/src/cli_interface.cpp.s
-.PHONY : src/cli_interface.cpp.s
-
-src/instruction_decoder.o: src/instruction_decoder.cpp.o
-.PHONY : src/instruction_decoder.o
-
-# target to build an object file
-src/instruction_decoder.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.o
-.PHONY : src/instruction_decoder.cpp.o
-
-src/instruction_decoder.i: src/instruction_decoder.cpp.i
-.PHONY : src/instruction_decoder.i
-
-# target to preprocess a source file
-src/instruction_decoder.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.i
-.PHONY : src/instruction_decoder.cpp.i
-
-src/instruction_decoder.s: src/instruction_decoder.cpp.s
-.PHONY : src/instruction_decoder.s
+src/instruction.s: src/instruction.cpp.s
+.PHONY : src/instruction.s
 
 # target to generate assembly for a file
-src/instruction_decoder.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/instruction_decoder.cpp.s
-.PHONY : src/instruction_decoder.cpp.s
+src/instruction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/instruction.cpp.s
+.PHONY : src/instruction.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -320,12 +190,36 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/memory.o: src/memory.cpp.o
+.PHONY : src/memory.o
+
+# target to build an object file
+src/memory.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/memory.cpp.o
+.PHONY : src/memory.cpp.o
+
+src/memory.i: src/memory.cpp.i
+.PHONY : src/memory.i
+
+# target to preprocess a source file
+src/memory.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/memory.cpp.i
+.PHONY : src/memory.cpp.i
+
+src/memory.s: src/memory.cpp.s
+.PHONY : src/memory.s
+
+# target to generate assembly for a file
+src/memory.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/memory.cpp.s
+.PHONY : src/memory.cpp.s
+
 src/mips_simulator.o: src/mips_simulator.cpp.o
 .PHONY : src/mips_simulator.o
 
 # target to build an object file
 src/mips_simulator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/mips_simulator.cpp.o
 .PHONY : src/mips_simulator.cpp.o
 
 src/mips_simulator.i: src/mips_simulator.cpp.i
@@ -333,7 +227,7 @@ src/mips_simulator.i: src/mips_simulator.cpp.i
 
 # target to preprocess a source file
 src/mips_simulator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/mips_simulator.cpp.i
 .PHONY : src/mips_simulator.cpp.i
 
 src/mips_simulator.s: src/mips_simulator.cpp.s
@@ -341,32 +235,32 @@ src/mips_simulator.s: src/mips_simulator.cpp.s
 
 # target to generate assembly for a file
 src/mips_simulator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/mips_simulator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/mips_simulator.cpp.s
 .PHONY : src/mips_simulator.cpp.s
 
-src/pipeline.o: src/pipeline.cpp.o
-.PHONY : src/pipeline.o
+src/register_file.o: src/register_file.cpp.o
+.PHONY : src/register_file.o
 
 # target to build an object file
-src/pipeline.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.o
-.PHONY : src/pipeline.cpp.o
+src/register_file.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/register_file.cpp.o
+.PHONY : src/register_file.cpp.o
 
-src/pipeline.i: src/pipeline.cpp.i
-.PHONY : src/pipeline.i
+src/register_file.i: src/register_file.cpp.i
+.PHONY : src/register_file.i
 
 # target to preprocess a source file
-src/pipeline.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.i
-.PHONY : src/pipeline.cpp.i
+src/register_file.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/register_file.cpp.i
+.PHONY : src/register_file.cpp.i
 
-src/pipeline.s: src/pipeline.cpp.s
-.PHONY : src/pipeline.s
+src/register_file.s: src/register_file.cpp.s
+.PHONY : src/register_file.s
 
 # target to generate assembly for a file
-src/pipeline.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator_lib.dir/build.make CMakeFiles/mips_simulator_lib.dir/src/pipeline.cpp.s
-.PHONY : src/pipeline.cpp.s
+src/register_file.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mips_simulator.dir/build.make CMakeFiles/mips_simulator.dir/src/register_file.cpp.s
+.PHONY : src/register_file.cpp.s
 
 # Help Target
 help:
@@ -375,35 +269,24 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... mips_cli"
+	@echo "... info"
 	@echo "... mips_simulator"
-	@echo "... mips_simulator_lib"
-	@echo "... src/alu.o"
-	@echo "... src/alu.i"
-	@echo "... src/alu.s"
-	@echo "... src/branch_predictor.o"
-	@echo "... src/branch_predictor.i"
-	@echo "... src/branch_predictor.s"
-	@echo "... src/cli_interface.o"
-	@echo "... src/cli_interface.i"
-	@echo "... src/cli_interface.s"
-	@echo "... src/instruction_decoder.o"
-	@echo "... src/instruction_decoder.i"
-	@echo "... src/instruction_decoder.s"
+	@echo "... src/instruction.o"
+	@echo "... src/instruction.i"
+	@echo "... src/instruction.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/memory.o"
+	@echo "... src/memory.i"
+	@echo "... src/memory.s"
 	@echo "... src/mips_simulator.o"
 	@echo "... src/mips_simulator.i"
 	@echo "... src/mips_simulator.s"
-	@echo "... src/pipeline.o"
-	@echo "... src/pipeline.i"
-	@echo "... src/pipeline.s"
+	@echo "... src/register_file.o"
+	@echo "... src/register_file.i"
+	@echo "... src/register_file.s"
 .PHONY : help
 
 
