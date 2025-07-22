@@ -1,4 +1,3 @@
-```markdown
 # MIPS Assembly Simulator
 
 This project is a C++ based MIPS I instruction set simulator with a Python Dash/Flask web interface. It is designed to parse and execute MIPS assembly code, emulating the register file, memory, and the fetch-decode-execute cycle of a basic MIPS processor.
