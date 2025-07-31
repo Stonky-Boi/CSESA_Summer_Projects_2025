@@ -17,22 +17,37 @@ void Instruction::parse() {
 
     if (original_line.empty()) return;
 
-    // A label might exist
+    // Handle labels
     auto label_pos = original_line.find(':');
     if (label_pos != std::string::npos) {
-        // For now, we assume labels are handled by the simulator's parser
-        // This parser just focuses on the instruction part
         original_line = original_line.substr(label_pos + 1);
         original_line.erase(0, original_line.find_first_not_of(" \t"));
     }
     
+    if (original_line.empty()) return;
+    
+    // Split by spaces first to get operation and argument string
     std::stringstream ss(original_line);
     ss >> operation;
-
+    
+    // Get the rest of the line as arguments
+    std::string rest_of_line;
+    std::getline(ss, rest_of_line);
+    
+    // Trim leading whitespace from arguments
+    rest_of_line.erase(0, rest_of_line.find_first_not_of(" \t"));
+    
+    if (rest_of_line.empty()) return;
+    
+    // Split arguments by comma
+    std::stringstream arg_stream(rest_of_line);
     std::string arg;
-    while (ss >> arg) {
-        // Remove commas
-        arg.erase(std::remove(arg.begin(), arg.end(), ','), arg.end());
+    
+    while (std::getline(arg_stream, arg, ',')) {
+        // Trim whitespace from each argument
+        arg.erase(0, arg.find_first_not_of(" \t"));
+        arg.erase(arg.find_last_not_of(" \t") + 1);
+        
         if (!arg.empty()) {
             args.push_back(arg);
         }
