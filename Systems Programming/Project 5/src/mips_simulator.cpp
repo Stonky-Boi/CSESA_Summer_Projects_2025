@@ -129,6 +129,14 @@ MipsSimulator::MipsSimulator() : mem(4096) {
     };
 
     // Multiply and divide
+    instruction_map["mul"] = [this](const Instruction& i) {
+        int rd = RegisterFile::get_reg_index(i.args[0]);
+        int rs = RegisterFile::get_reg_index(i.args[1]);
+        int rt = RegisterFile::get_reg_index(i.args[2]);
+        int64_t result = (int64_t)regs.read(rs) * (int64_t)regs.read(rt);
+        regs.write(rd, (int32_t)(result & 0xFFFFFFFF));
+    };
+
     instruction_map["mult"] = [this](const Instruction& i) {
         int32_t rsval = regs.read(RegisterFile::get_reg_index(i.args[0]));
         int32_t rtval = regs.read(RegisterFile::get_reg_index(i.args[1]));
@@ -144,11 +152,23 @@ MipsSimulator::MipsSimulator() : mem(4096) {
         LO = (int32_t)(mult_result & 0xFFFFFFFF);
     };
     instruction_map["div"] = [this](const Instruction& i) {
-        int32_t dividend = regs.read(RegisterFile::get_reg_index(i.args[0]));
-        int32_t divisor = regs.read(RegisterFile::get_reg_index(i.args[1]));
-        if(divisor == 0) throw std::runtime_error("Division by zero");
-        LO = dividend / divisor;
-        HI = dividend % divisor;
+        if (i.args.size() == 2) {
+            // Standard MIPS div: div $rs, $rt (result goes to HI/LO)
+            int32_t dividend = regs.read(RegisterFile::get_reg_index(i.args[0]));
+            int32_t divisor = regs.read(RegisterFile::get_reg_index(i.args[1]));
+            if(divisor == 0) throw std::runtime_error("Division by zero");
+            LO = dividend / divisor;
+            HI = dividend % divisor;
+        } else if (i.args.size() == 3) {
+            // Pseudo div: div $rd, $rs, $rt (result goes to $rd)
+            int rd = RegisterFile::get_reg_index(i.args[0]);
+            int rs = RegisterFile::get_reg_index(i.args[1]);
+            int rt = RegisterFile::get_reg_index(i.args[2]);
+            int32_t dividend = regs.read(rs);
+            int32_t divisor = regs.read(rt);
+            if(divisor == 0) throw std::runtime_error("Division by zero");
+            regs.write(rd, dividend / divisor);
+        }
     };
     instruction_map["divu"] = [this](const Instruction& i) {
         uint32_t dividend = (uint32_t)regs.read(RegisterFile::get_reg_index(i.args[0]));
@@ -156,6 +176,16 @@ MipsSimulator::MipsSimulator() : mem(4096) {
         if(divisor == 0) throw std::runtime_error("Division by zero");
         LO = dividend / divisor;
         HI = dividend % divisor;
+    };
+    // Add remainder pseudo-instruction
+    instruction_map["rem"] = [this](const Instruction& i) {
+        int rd = RegisterFile::get_reg_index(i.args[0]);
+        int rs = RegisterFile::get_reg_index(i.args[1]);
+        int rt = RegisterFile::get_reg_index(i.args[2]);
+        int32_t dividend = regs.read(rs);
+        int32_t divisor = regs.read(rt);
+        if(divisor == 0) throw std::runtime_error("Division by zero");
+        regs.write(rd, dividend % divisor);
     };
     instruction_map["mfhi"] = [this](const Instruction& i) {
         regs.write(RegisterFile::get_reg_index(i.args[0]), HI);
@@ -343,7 +373,7 @@ MipsSimulator::MipsSimulator() : mem(4096) {
         branch_if(regs.read(rs) >= 0, i);
     };
 
-    // Pseudo branches (added to fix your example 4 ble)
+    // Pseudo branches
     instruction_map["ble"] = [this](const Instruction& i) {
         int rs = RegisterFile::get_reg_index(i.args[0]);
         int rt = RegisterFile::get_reg_index(i.args[1]);
@@ -356,6 +386,25 @@ MipsSimulator::MipsSimulator() : mem(4096) {
         int rs = RegisterFile::get_reg_index(i.args[0]);
         int rt = RegisterFile::get_reg_index(i.args[1]);
         if (regs.read(rs) >= regs.read(rt))
+            regs.set_pc(label_map.at(i.args[2]));
+        else
+            regs.increment_pc();
+    };
+
+    // Branch pseudo-instructions
+    instruction_map["blt"] = [this](const Instruction& i) {
+        int rs = RegisterFile::get_reg_index(i.args[0]);
+        int rt = RegisterFile::get_reg_index(i.args[1]);
+        if (regs.read(rs) < regs.read(rt))
+            regs.set_pc(label_map.at(i.args[2]));
+        else
+            regs.increment_pc();
+    };
+
+    instruction_map["bgt"] = [this](const Instruction& i) {
+        int rs = RegisterFile::get_reg_index(i.args[0]);
+        int rt = RegisterFile::get_reg_index(i.args[1]);
+        if (regs.read(rs) > regs.read(rt))
             regs.set_pc(label_map.at(i.args[2]));
         else
             regs.increment_pc();
