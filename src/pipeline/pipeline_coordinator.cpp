@@ -102,7 +102,7 @@ void PipelineCoordinator::execute_program()
         }
 
         pipeline_state.update_clock_cycle();
-        execution_tracer.print_cycle_trace(statistics_tracker.get_total_cycles(), pipeline_state);
+        execution_tracer.print_cycle_trace(statistics_tracker.get_total_cycles(), pipeline_state, register_file);
 
         if (pipeline_state.read_if_id_latch().is_valid)
             has_fetched_first_instruction = true;

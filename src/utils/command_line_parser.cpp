@@ -17,6 +17,7 @@ CommandLineParser::CommandLineParser(int argument_count, char *argument_values[]
     execution_mode = "interpreter";
     predictor_type = "always_not_taken";
     enable_tracing = false;
+    output_json = false;
 
     for (int index = 2; index < argument_count; ++index)
     {
@@ -27,6 +28,8 @@ CommandLineParser::CommandLineParser(int argument_count, char *argument_values[]
             predictor_type = argument.substr(12);
         else if (argument == "--trace")
             enable_tracing = true;
+        else if (argument == "--json")
+            output_json = true;
     }
 }
 
@@ -45,6 +48,11 @@ bool CommandLineParser::is_tracing_enabled() const
     return enable_tracing;
 }
 
+bool CommandLineParser::is_json_output_enabled() const
+{
+    return output_json;
+}
+
 BranchPredictor *CommandLineParser::instantiate_predictor() const
 {
     if (predictor_type == "always_taken")
@@ -61,6 +69,6 @@ BranchPredictor *CommandLineParser::instantiate_predictor() const
         return new GlobalHistory();
     if (predictor_type == "two_level")
         return new TwoLevelAdaptive();
-        
+
     throw std::invalid_argument("Unknown predictor type specified: " + predictor_type);
 }

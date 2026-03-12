@@ -33,7 +33,7 @@ int main(int argument_count, char *argument_values[])
         {
             BranchPredictor *branch_predictor = command_line_parser.instantiate_predictor();
             StatisticsTracker statistics_tracker;
-            ExecutionTracer execution_tracer(command_line_parser.is_tracing_enabled());
+            ExecutionTracer execution_tracer(command_line_parser.is_tracing_enabled(), command_line_parser.is_json_output_enabled());
 
             PipelineCoordinator pipeline_coordinator(
                 register_file,
