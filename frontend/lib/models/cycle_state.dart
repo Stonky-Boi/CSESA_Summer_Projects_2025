@@ -34,11 +34,13 @@ class CycleState {
   final int clockCycle;
   final PipelineTrace pipelineLatches;
   final Map<int, int> registerFile;
+  final Map<int, int> dataMemory;
 
   CycleState({
     required this.clockCycle,
     required this.pipelineLatches,
     required this.registerFile,
+    required this.dataMemory,
   });
 
   factory CycleState.fromJson(Map<String, dynamic> jsonMap) {
@@ -61,12 +63,27 @@ class CycleState {
       parsedRegisters[registerIndex] = value as int;
     });
 
+    // Safely parse the active memory addresses
+    final Map<int, int> parsedMemory = {};
+    if (jsonMap.containsKey('memory')) {
+      final Map<String, dynamic> rawMemory =
+          jsonMap['memory'] as Map<String, dynamic>;
+      rawMemory.forEach((key, value) {
+        final int? memoryAddress = int.tryParse(key);
+        if (memoryAddress == null) {
+          throw FormatException("Invalid memory address encountered: $key");
+        }
+        parsedMemory[memoryAddress] = value as int;
+      });
+    }
+
     return CycleState(
       clockCycle: jsonMap['cycle'] as int,
       pipelineLatches: PipelineTrace.fromJson(
         jsonMap['pipeline'] as Map<String, dynamic>,
       ),
       registerFile: parsedRegisters,
+      dataMemory: parsedMemory,
     );
   }
 }

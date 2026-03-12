@@ -51,3 +51,20 @@ void Memory::write_word(uint32_t memory_address, uint32_t write_value)
     write_byte(memory_address + 2, (write_value >> 16) & 0xFF);
     write_byte(memory_address + 3, (write_value >> 24) & 0xFF);
 }
+
+std::map<uint32_t, uint32_t> Memory::get_active_state() const
+{
+    std::map<uint32_t, uint32_t> state_snapshot;
+    for (const auto &[address, byte_value] : memory_store)
+    {
+        // We only want to visualize the data segment and stack in the UI
+        if (address >= data_segment_start)
+        {
+            uint32_t aligned_address = address & ~0x3; // Bitwise AND to round down to nearest multiple of 4
+            // If we haven't already grabbed the word for this address, read it
+            if (state_snapshot.find(aligned_address) == state_snapshot.end())
+                state_snapshot[aligned_address] = read_word(aligned_address);
+        }
+    }
+    return state_snapshot;
+}

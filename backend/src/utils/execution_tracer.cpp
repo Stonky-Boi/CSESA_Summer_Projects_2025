@@ -11,11 +11,11 @@ ExecutionTracer::ExecutionTracer(bool enable_tracing, bool use_json)
 void ExecutionTracer::print_cycle_trace(
     uint64_t clock_cycle,
     const PipelineState &pipeline_state,
-    const RegisterFile &register_file) const
+    const RegisterFile &register_file,
+    const Memory &system_memory) const
 {
     if (!tracing_enabled)
         return;
-
     std::string fetch_string = pipeline_state.read_if_id_latch().is_valid ? pipeline_state.read_if_id_latch().current_instruction.get_assembly_string() : "NOP";
     std::string decode_string = pipeline_state.read_id_ex_latch().is_valid ? pipeline_state.read_id_ex_latch().current_instruction.get_assembly_string() : "NOP";
     std::string execute_string = pipeline_state.read_ex_mem_latch().is_valid ? pipeline_state.read_ex_mem_latch().current_instruction.get_assembly_string() : "NOP";
@@ -28,14 +28,23 @@ void ExecutionTracer::print_cycle_trace(
         std::cout << "\"ID\": \"" << decode_string << "\", ";
         std::cout << "\"EX\": \"" << execute_string << "\", ";
         std::cout << "\"MEM\": \"" << memory_string << "\"}, \"registers\": {";
-
         for (int index = 0; index < 32; ++index)
         {
             std::cout << "\"" << index << "\": " << register_file.read_register(index);
             if (index < 31)
                 std::cout << ", ";
         }
-        std::cout << "}}" << std::endl;
+        std::cout << "}, \"memory\": {"; // Close registers, open memory
+        std::map<uint32_t, uint32_t> current_memory_state = system_memory.get_active_state();
+        bool is_first_entry = true;
+        for (const auto &[address, value] : current_memory_state)
+        {
+            if (!is_first_entry)
+                std::cout << ", ";
+            std::cout << "\"" << address << "\": " << value;
+            is_first_entry = false;
+        }
+        std::cout << "}}" << std::endl; // Close memory and root object
     }
     else
     {

@@ -2,6 +2,7 @@
 
 #include "pipeline/pipeline_state.hpp"
 #include "architecture/register_file.hpp"
+#include "architecture/memory.hpp"
 #include <cstdint>
 
 class ExecutionTracer
@@ -16,5 +17,6 @@ public:
     void print_cycle_trace(
         uint64_t clock_cycle,
         const PipelineState &pipeline_state,
-        const RegisterFile &register_file) const;
+        const RegisterFile &register_file,
+        const Memory &system_memory) const;
 };

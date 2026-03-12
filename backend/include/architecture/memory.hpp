@@ -22,4 +22,6 @@ public:
 
     uint32_t read_word(uint32_t memory_address) const;
     void write_word(uint32_t memory_address, uint32_t write_value);
+
+    std::map<uint32_t, uint32_t> get_active_state() const;
 };

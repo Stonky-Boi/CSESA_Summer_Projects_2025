@@ -5,6 +5,7 @@ import '../providers/simulator_provider.dart';
 import '../widgets/pipeline_view.dart';
 import '../widgets/register_grid.dart';
 import '../widgets/control_panel.dart';
+import '../widgets/memory_viewer.dart';
 
 class SimulatorScreen extends StatefulWidget {
   const SimulatorScreen({super.key});
@@ -169,7 +170,18 @@ end:
                   const SizedBox(height: 16),
                   const ControlPanel(),
                   const SizedBox(height: 16),
-                  const Expanded(child: RegisterGrid()),
+
+                  // Split the bottom area into Registers and Memory
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Expanded(flex: 2, child: RegisterGrid()),
+                        const SizedBox(width: 16),
+                        const Expanded(flex: 1, child: MemoryViewer()),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
