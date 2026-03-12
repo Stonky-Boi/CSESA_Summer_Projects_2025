@@ -1,11 +1,2 @@
-# Ignore all .DS_Store files anywhere in the project
 .DS_Store
-
-# Ignore macOS `.DS_Store` recursively (more robust)
-**/.DS_Store
-
-# Ignore specific folders inside Systems Programming/Project 5/
-Systems\ Programming/Project\ 5/venv/
-Systems\ Programming/Project\ 5/build/
-Systems\ Programming/Project\ 5/web/mips_simulator
-Systems\ Programming/Project\ 5/test_programs/
+build

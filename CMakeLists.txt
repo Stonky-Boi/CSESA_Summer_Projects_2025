@@ -1,23 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
-project(MipsSimulator)
 
-# Require C++17 standard
+# Project name and version
+project(ember VERSION 1.0)
+
+# Enforce C++17 standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Set the output directory for the executable
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/web)
-
-# Include the header files directory
+# Tell CMake where to find our header files
 include_directories(include)
 
-# Find all source files in the src directory
-file(GLOB SOURCES "src/*.cpp")
+# Recursively find all .cpp files in the src/ directory
+file(GLOB_RECURSE EMBER_SOURCES "src/*.cpp")
 
-# Add the executable
-add_executable(mips_simulator ${SOURCES})
-
-# Add a custom command to inform the user where the executable is
-add_custom_target(info ALL
-    COMMAND ${CMAKE_COMMAND} -E echo "Executable will be placed in ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-)
+# Create the executable
+add_executable(ember ${EMBER_SOURCES})

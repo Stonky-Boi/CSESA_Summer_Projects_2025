@@ -1,100 +1,66 @@
+#include "architecture/register_file.hpp"
+#include "architecture/memory.hpp"
+#include "architecture/program_counter.hpp"
+#include "parser/assembler.hpp"
+#include "execution/interpreter.hpp"
+#include "pipeline/pipeline_coordinator.hpp"
+#include "utils/command_line_parser.hpp"
+#include "utils/statistics_tracker.hpp"
+#include "utils/execution_tracer.hpp"
+#include "prediction/branch_predictor.hpp"
 #include <iostream>
-#include <fstream>
-#include <sstream>
+#include <string>
 #include <stdexcept>
-#include <iomanip>
-#include "mips_simulator.hpp"
+#include <map>
 
-// Function to escape strings for JSON
-std::string escape_json(const std::string &s) {
-    std::ostringstream o;
-    for (auto c = s.cbegin(); c != s.cend(); c++) {
-        switch (*c) {
-            case '"': o << "\\\""; break;
-            case '\\': o << "\\\\"; break;
-            case '\b': o << "\\b"; break;
-            case '\f': o << "\\f"; break;
-            case '\n': o << "\\n"; break;
-            case '\r': o << "\\r"; break;
-            case '\t': o << "\\t"; break;
-            default:
-                if ('\x00' <= *c && *c <= '\x1f') {
-                    o << "\\u" << std::hex << std::setw(4) << std::setfill('0') << (int)*c;
-                } else {
-                    o << *c;
-                }
+int main(int argument_count, char *argument_values[])
+{
+    try
+    {
+        CommandLineParser command_line_parser(argument_count, argument_values);
+
+        std::string file_path = command_line_parser.get_file_path();
+        std::string execution_mode = command_line_parser.get_execution_mode();
+
+        RegisterFile register_file;
+        Memory system_memory;
+        ProgramCounter program_counter;
+
+        Assembler program_assembler(register_file);
+        std::map<uint32_t, Instruction> instruction_memory = program_assembler.assemble_program(file_path, system_memory);
+
+        if (execution_mode == "pipeline")
+        {
+            BranchPredictor *branch_predictor = command_line_parser.instantiate_predictor();
+            StatisticsTracker statistics_tracker;
+            ExecutionTracer execution_tracer(command_line_parser.is_tracing_enabled());
+
+            PipelineCoordinator pipeline_coordinator(
+                register_file,
+                system_memory,
+                program_counter,
+                instruction_memory,
+                branch_predictor,
+                statistics_tracker,
+                execution_tracer);
+
+            pipeline_coordinator.execute_program();
+            statistics_tracker.print_statistics_report();
+
+            delete branch_predictor;
         }
-    }
-    return o.str();
-}
-
-void output_json_state(const MipsSimulator& sim) {
-    std::cout << "{" << std::endl;
-
-    // PC
-    std::cout << "  \"pc\": " << sim.get_registers().get_pc() << "," << std::endl;
-    
-    // Registers
-    std::cout << "  \"registers\": {" << std::endl;
-    auto regs = sim.get_registers().get_registers();
-    for (int i = 0; i < 32; ++i) {
-        std::cout << "    \"" << RegisterFile::get_reg_name(i) << "\": " << regs[i] << (i == 31 ? "" : ",") << std::endl;
-    }
-    std::cout << "  }," << std::endl;
-    
-    // Console Output
-    std::cout << "  \"console_output\": \"" << escape_json(sim.get_console_output()) << "\"," << std::endl;
-
-    // Memory (only showing first 256 bytes for brevity)
-    std::cout << "  \"memory\": {" << std::endl;
-    auto mem = sim.get_memory().get_memory_state();
-    std::cout << "    \"data_segment_hex\": \"";
-    std::stringstream hex_stream;
-    for(size_t i = 0; i < 256 && i < mem.size(); ++i) {
-        hex_stream << std::hex << std::setw(2) << std::setfill('0') << (int)mem[i];
-    }
-    std::cout << hex_stream.str() << "\"" << std::endl;
-    std::cout << "  }" << std::endl;
-
-
-    std::cout << "}" << std::endl;
-}
-
-int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cerr << "Usage: " << argv[0] << " <filepath> [--run | --step]" << std::endl;
-        return 1;
-    }
-
-    std::string filepath = argv[1];
-    std::string mode = argv[2];
-
-    std::ifstream file(filepath);
-    if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filepath << std::endl;
-        return 1;
-    }
-
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string code = buffer.str();
-    
-    MipsSimulator simulator;
-    try {
-        simulator.load_program_from_string(code);
-        if (mode == "--run") {
-            simulator.run();
-        } else if (mode == "--step") {
-            // In a real step-by-step from web, we'd load state, step, and return.
-            // This is a simplified CLI version.
-            simulator.step();
+        else if (execution_mode == "interpreter")
+        {
+            Interpreter program_interpreter(register_file, system_memory, program_counter, instruction_memory);
+            program_interpreter.execute_program();
         }
-        output_json_state(simulator);
-
-    } catch (const std::exception& e) {
-        std::cerr << "{\"error\": \"" << escape_json(e.what()) << "\"}" << std::endl;
+        else
+            throw std::invalid_argument("Unknown execution mode specified: " + execution_mode);
+    }
+    catch (const std::exception &error)
+    {
+        std::cerr << "Fatal Error: " << error.what() << std::endl;
         return 1;
     }
-
     return 0;
 }
