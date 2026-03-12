@@ -130,6 +130,9 @@ ExecuteResult ExecuteStage::execute(
     next_latch.write_register_index = write_register_index;
     next_latch.is_valid = true;
 
+    result.was_predicted_taken = current_latch.was_predicted_taken;
+    result.predicted_target = current_latch.predicted_target;
+
     pipeline_state.write_ex_mem_latch(next_latch);
     return result;
 }

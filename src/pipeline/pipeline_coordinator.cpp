@@ -57,43 +57,45 @@ void PipelineCoordinator::execute_program()
         fetch_stage.execute(is_stalled, pipeline_state, program_counter, instruction_memory);
 
         // --- Branch Prediction (Fetch Phase) ---
-        if (!is_stalled && pipeline_state.read_if_id_latch().is_valid)
+        if (!is_stalled && pipeline_state.read_next_if_id_latch().is_valid)
         {
-            uint32_t fetched_program_counter = pipeline_state.read_if_id_latch().program_counter;
+            uint32_t fetched_program_counter = pipeline_state.read_next_if_id_latch().program_counter;
+            bool is_predicted_taken = false;
+            uint32_t predicted_target = fetched_program_counter + 4; // Default to PC + 4
             if (branch_predictor != nullptr)
             {
-                bool is_predicted_taken = branch_predictor->predict_branch(fetched_program_counter);
+                is_predicted_taken = branch_predictor->predict_branch(fetched_program_counter);
                 std::map<uint32_t, uint32_t>::iterator buffer_iterator = branch_target_buffer.find(fetched_program_counter);
                 if (is_predicted_taken && buffer_iterator != branch_target_buffer.end())
-                    program_counter.write_address(buffer_iterator->second);
+                {
+                    predicted_target = buffer_iterator->second;
+                    program_counter.write_address(predicted_target);
+                }
             }
+            pipeline_state.inject_prediction_to_if_id(is_predicted_taken, predicted_target);
         }
 
         // --- Branch Resolution (Execute Phase) ---
         if (execute_result.is_branch_instruction)
         {
-            uint32_t branch_program_counter = pipeline_state.read_ex_mem_latch().program_counter;
+            uint32_t branch_program_counter = pipeline_state.read_id_ex_latch().program_counter;
             statistics_tracker.increment_branches_executed();
             if (execute_result.branch_taken)
                 statistics_tracker.increment_branches_taken();
-            bool was_predicted_taken = false;
-            uint32_t predicted_target = branch_program_counter + 4;
             if (branch_predictor != nullptr)
             {
-                was_predicted_taken = branch_predictor->predict_branch(branch_program_counter);
-                std::map<uint32_t, uint32_t>::iterator buffer_iterator = branch_target_buffer.find(branch_program_counter);
-                if (was_predicted_taken && buffer_iterator != branch_target_buffer.end())
-                    predicted_target = buffer_iterator->second;
                 branch_predictor->update_predictor(branch_program_counter, execute_result.branch_taken);
                 if (execute_result.branch_taken)
                     branch_target_buffer[branch_program_counter] = execute_result.branch_target;
             }
             uint32_t actual_target = execute_result.branch_taken ? execute_result.branch_target : branch_program_counter + 4;
-            if (predicted_target != actual_target)
+            // Use the latched prediction instead of re-querying
+            if (execute_result.predicted_target != actual_target)
             {
                 pipeline_state.flush_if_id_latch();
                 pipeline_state.flush_id_ex_latch();
                 program_counter.write_address(actual_target);
+
                 statistics_tracker.increment_branches_mispredicted();
                 statistics_tracker.increment_pipeline_flushes();
             }

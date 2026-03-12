@@ -32,6 +32,8 @@ void DecodeStage::execute(
     // Read the values from the Register File simultaneously
     new_latch.register_read_data_one = register_file.read_register(new_latch.register_source);
     new_latch.register_read_data_two = register_file.read_register(new_latch.register_target);
+    new_latch.was_predicted_taken = current_latch.was_predicted_taken;
+    new_latch.predicted_target = current_latch.predicted_target;
 
     new_latch.is_valid = true;
     pipeline_state.write_id_ex_latch(new_latch);

@@ -10,6 +10,8 @@ struct ExecuteResult
     bool is_branch_instruction = false;
     bool branch_taken = false;
     uint32_t branch_target = 0;
+    bool was_predicted_taken = false;
+    uint32_t predicted_target = 0;
 };
 
 class ExecuteStage
