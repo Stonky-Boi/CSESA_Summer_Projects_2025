@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+    <defs>
+        <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2c2c2e" />
+            <stop offset="100%" stop-color="#111111" />
+        </linearGradient>
+        <linearGradient id="chip" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3a3a3c" />
+            <stop offset="100%" stop-color="#1c1c1e" />
+        </linearGradient>
+        <linearGradient id="fire" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#e65100" />
+            <stop offset="50%" stop-color="#ff9800" />
+            <stop offset="100%" stop-color="#ffea00" />
+        </linearGradient>
+    </defs>
+
+    <rect width="512" height="512" rx="115" fill="url(#bg)" />
+
+    <g stroke="#ff9800" stroke-width="12" stroke-linecap="round" opacity="0.4">
+        <path d="M 100 256 L 160 256" />
+        <path d="M 120 190 L 160 190" />
+        <path d="M 120 322 L 160 322" />
+        <path d="M 352 256 L 412 256" />
+        <path d="M 352 190 L 392 190" />
+        <path d="M 352 322 L 392 322" />
+        <path d="M 256 100 L 256 160" />
+        <path d="M 190 120 L 190 160" />
+        <path d="M 322 120 L 322 160" />
+        <path d="M 256 352 L 256 412" />
+        <path d="M 190 352 L 190 392" />
+        <path d="M 322 352 L 322 392" />
+    </g>
+
+    <rect x="160" y="160" width="192" height="192" rx="24" fill="url(#chip)" stroke="#ff5722"
+        stroke-width="6" />
+    <rect x="180" y="180" width="152" height="152" rx="12" fill="#151515" stroke="#424242"
+        stroke-width="4" />
+
+    <path
+        d="M256 195 C256 195 210 240 210 280 C210 305 230 325 256 325 C282 325 302 305 302 280 C302 240 256 195 256 195 Z"
+        fill="url(#fire)" />
+
+    <path
+        d="M256 235 C256 235 235 260 235 280 C235 292 245 300 256 300 C267 300 277 292 277 280 C277 260 256 235 256 235 Z"
+        fill="#fff59d" />
+
+    <circle cx="210" cy="180" r="8" fill="#ff9800" />
+    <circle cx="290" cy="160" r="10" fill="#ffeb3b" />
+    <circle cx="270" cy="120" r="6" fill="#e65100" />
+</svg>

@@ -158,3 +158,34 @@ end:
     ADDI $v0, $zero, 10    
     SYSCALL
 ```
+
+## Building a Standalone Application
+
+You can compile Ember into a standalone macOS application bundle (`.app`) that internally packages the C++ simulation engine.
+
+### 1. Package the Release Backend
+Build an optimized release version of the C++ engine and stage it in the Flutter assets directory:
+```bash
+cd backend
+rm -rf build && mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+
+cd ../../frontend
+mkdir -p assets
+cp ../backend/build/ember assets/ember
+```
+
+### 2. Compile the Native App
+Ensure `assets/ember` is registered under the `assets:` section in your `frontend/pubspec.yaml`. Then, build the macOS application:
+```bash
+flutter build macos
+```
+Your compiled application will be generated at `build/macos/Build/Products/Release/frontend.app`. You can rename this to `Ember.app` and move it to your `/Applications` directory.
+
+### 3. Apply the Custom App Icon
+To apply the custom Ember icon to your standalone app:
+1. Open `frontend/lib/icon/ember.svg` in a web browser and copy the image to your clipboard.
+2. Right-click your `Ember.app` in Finder and select **Get Info** (`Cmd + I`).
+3. Click the small generic app icon in the top-left corner of the window to highlight it.
+4. Press `Cmd + V` to paste the custom SVG icon.
