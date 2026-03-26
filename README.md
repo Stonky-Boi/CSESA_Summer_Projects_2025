@@ -1,8 +1,4 @@
 # MIPS Assembly Simulator
-![GitHub Created At](https://img.shields.io/github/created-at/Stonky-Boi/Ember)
-![GitHub contributors](https://img.shields.io/github/contributors/Stonky-Boi/Ember)
-![GitHub License](https://img.shields.io/github/license/Stonky-Boi/Ember)
-
 Ember is a bare-metal, cycle-accurate MIPS CPU simulator built with a high-performance C++ backend and a reactive Flutter graphical user interface. 
 
 Unlike educational simulators that abstract away hardware realities, Ember strictly enforces authentic ISA execution. It simulates a 5-stage pipeline (Fetch, Decode, Execute, Memory, Writeback), resolves data hazards via multiplexed forwarding or load-use stalls, and implements swappable hardware branch predictors to visualize cycle-by-cycle execution.
